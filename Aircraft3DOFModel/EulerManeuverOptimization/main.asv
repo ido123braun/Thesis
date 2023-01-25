@@ -30,10 +30,10 @@ y_vec = [...
     falcon.Output('alpha', -40*pi/180, 40*pi/180, 1);
     falcon.Output('CL', -2, 2, 1);
     falcon.Output('CD', 0, 2, 1);
-    falcon.Output('T', 0, p.Tmax, 1);
+    falcon.Output('T', 0, p.Tmax_P, 1);
     falcon.Output('TSFC', 0, 0.01, 1);
      falcon.Output('ng', -3, 9.5, 1);
-    falcon.Output('Wneg', -50000*0.4536*p.g, -20300*0.4536*p.g, 1e-5)];
+    falcon.Output('Wneg', -50000*0.4536*p.g, -20300*0.4536*p.g, 1e-5)
 
 tf = falcon.Parameter('FinalTime', 10, 0, 200, 1e-2);
 
@@ -107,27 +107,36 @@ n0=1; % Initial Airplane Load Factor
 
 rfmin_E=[-inf; -inf; -20000*0.3048]; % Minimum Terminal Airplane Radius in Earth Coordinates [m]
 rfmax_E=[inf; inf; -20000*0.3048]; % Maximum Terminal Airplane Radius in Earth Coordinates [m]
-vfmin=300; % Minimum Terminal Airplane TAS Velocity [m/sec]
-vfmax=300; % Maximum Terminal Airplane TAS Velocity [m/sec]
-phifmin=-360*pi/180; % Minimum Terminal Airplane Roll Angle [rad]
-phifmax=360*pi/180; % Maximum Terminal Airplane Roll Angle [rad]
-gammafmin=0*pi/180; % Minimum Terminal Airplane Course Angle [rad]
-gammafmax=0*pi/180; % Maximum Terminal Airplane Course Angle [rad]
-psifmin=90*pi/180; % Minimum Terminal Airplane Azimuth Angle [rad]
-psifmax=90*pi/180; % Maximum Terminal Airplane Azimuth Angle [rad]
-Wfmin=20300*0.4536*p.g; % Minimum Terminal Airplane Weight [N]
-Wfmax=p.m0.*p.g; % Maximum Terminal Airplane Weight [N]
-Pfmin=0; % Minimum Terminal Airplane Roll Rate [rad/sec]
-Pfmax=0; % Maximum Terminal Airplane Roll Rate [rad/sec]
-Jsfmin=0; % Minimum Terminal Airplane Throttle
-Jsfmax=1; % Maximum Terminal Airplane Throttle
-nfmin=-3; % Minimum Terminal Airplane Load Factor
-nfmax=9.5; % Maximum Terminal Airplane Load Factor
+vfmin=50; % Minimum Terminal Airplane TAS Velocity [m/sec]
+vfmax=700; % Maximum Terminal Airplane TAS Velocity [m/sec]
+phifmin=-360*pi/180; % Initial Airplane Roll Angle [rad]
+gamma0=0*pi/180; % Initial Airplane Course Angle [rad]
+psi0=0*pi/180; % Initial Airplane Azimuth Angle [rad]
+W0=p.m0.*p.g; % Initial Airplane Weight [N]
+P0=0; % Initial Airplane Roll Rate [rad/sec]
+Js0=0.76; % Initial Airplane Throttle
+n0=1; % Initial Airplane Load Factor
+
+rfmin_PE=[-inf; -inf; -20000*0.3048]; % initial airplane radius in earth coordinates [m]
+rfmax_PE=[inf; inf; -20000*0.3048]; % initial airplane radius in earth coordinates [m]
+vfmin_PE=50; % initial airplane TAS velocity in earth coordinates [m/sec]
+vfmax_PE=700; % initial airplane TAS velocity in earth coordinates [m/sec]
+Wfmax_P=W0_P; % initial airplane weight [N]
+Wfmin_P=20300*0.4536*p.g; % initial airplane weight [N]
+phifmin_P=-360*pi/180; % initial airplane roll angle [rad]
+phifmax_P=360*pi/180; % initial airplane roll angle [rad]
+phifmin_P=-360*pi/180; % initial airplane roll angle [rad]
+phifmax_P=360*pi/180; % initial airplane roll angle [rad]
+phidotf_P=0; % initial airplane roll rate angle [rad/sec]
+Jsfmin_P=0; % initial airplane throttle
+Jsfmax_P=1; % initial airplane throttle
+nfmin_P=-3; % initial airplane load factor
+nfmax_P=9.5; % initial airplane load factor
 
 % Set Boundary Conditions
 
-phase.setInitialBoundaries([r0_E ; v0; phi0; gamma0; psi0; W0; P0; Js0; n0]);
-phase.setFinalBoundaries([rfmin_E ; vfmin; phifmin; gammafmin; psifmin; Wfmin; Pfmin; Jsfmin; nfmin],[rfmax_E ; vfmax; phifmax; gammafmax; psifmax; Wfmax; Pfmax; Jsfmax; nfmax]);
+phase.setInitialBoundaries([r0_PE ; v0_PE; phi0_P; W0_P; phidot0_P; Js0_P; n0_P]);
+phase.setFinalBoundaries([rfmin_PE ; vfmin_PE; phifmin_P; Wfmin_P; phidotf_P; Jsfmin_P; nfmin_P],[rfmax_PE ; vfmax_PE; phifmax_P; Wfmax_P; phidotf_P; Jsfmax_P; nfmax_P]);
 
 % Add Cost Function
 problem.addNewParameterCost(tf);
@@ -142,28 +151,31 @@ t=phase.RealTime;
 x_E=phase.StateGrid.Values(1,:);
 y_E=phase.StateGrid.Values(2,:);
 z_E=phase.StateGrid.Values(3,:);
-v=phase.StateGrid.Values(4,:);
-phi=phase.StateGrid.Values(5,:);
-gamma=phase.StateGrid.Values(6,:);
-psi=phase.StateGrid.Values(7,:);
-W=phase.StateGrid.Values(8,:);
-P=phase.StateGrid.Values(9,:);
-Js=phase.StateGrid.Values(10,:);
-n=phase.StateGrid.Values(11,:);
+vx_E=phase.StateGrid.Values(4,:);
+vy_E=phase.StateGrid.Values(5,:);
+vz_E=phase.StateGrid.Values(6,:);
+phi_P=phase.StateGrid.Values(7,:);
+W_P=phase.StateGrid.Values(8,:);
+phidot_P=phase.StateGrid.Values(9,:);
+Js_P=phase.StateGrid.Values(10,:);
+n_P=phase.StateGrid.Values(11,:);
 
-Pcom=phase.ControlGrids.Values(1,:);
-Jscom=phase.ControlGrids.Values(2,:);
-ncom=phase.ControlGrids.Values(3,:);
+phidotcom_P=phase.ControlGrids.Values(1,:);
+Jscom_P=phase.ControlGrids.Values(2,:);
+ncom_P=phase.ControlGrids.Values(3,:);
 
-alpha=phase.Model.ModelOutputGrid.Values(1,:);
-CL=phase.Model.ModelOutputGrid.Values(2,:);
-CD=phase.Model.ModelOutputGrid.Values(3,:);
-T=phase.Model.ModelOutputGrid.Values(4,:);
-TSFC=phase.Model.ModelOutputGrid.Values(5,:);
-ng=phase.Model.ModelOutputGrid.Values(6,:);
-Wneg=phase.Model.ModelOutputGrid.Values(7,:);
+gamma_P=phase.Model.ModelOutputGrid.Values(1,:);
+psi_P=phase.Model.ModelOutputGrid.Values(2,:);
+alpha=phase.Model.ModelOutputGrid.Values(3,:);
+CL=phase.Model.ModelOutputGrid.Values(4,:);
+CD=phase.Model.ModelOutputGrid.Values(5,:);
+T=phase.Model.ModelOutputGrid.Values(6,:);
+TSFC=phase.Model.ModelOutputGrid.Values(7,:);
+rho_P=phase.Model.ModelOutputGrid.Values(8,:);
 
-ComDataMat=[t', Pcom', Jscom', ncom'];
+v=sqrt(vx_E.^2+vy_E.^2+vz_E.^2);
+
+ComDataMat=[t', phidotcom_P', Jscom_P', ncom_P'];
 save ComData ComDataMat
 
 figure

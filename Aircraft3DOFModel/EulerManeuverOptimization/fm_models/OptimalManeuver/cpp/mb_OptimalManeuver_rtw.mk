@@ -2,8 +2,8 @@
 ## Makefile generated for component 'mb_OptimalManeuver'. 
 ## 
 ## Makefile     : mb_OptimalManeuver_rtw.mk
-## Generated on : Sun Jan 22 21:54:54 2023
-## Final product: C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Model/EulerManeuverOptimization/mb_OptimalManeuver.exe
+## Generated on : Wed Jan 25 22:42:00 2023
+## Final product: C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/EulerManeuverOptimization/mb_OptimalManeuver.exe
 ## Product type : executable
 ## 
 ###########################################################################
@@ -23,7 +23,7 @@ MAKEFILE                  = mb_OptimalManeuver_rtw.mk
 MATLAB_ROOT               = C:/PROGRA~1/MATLAB/R2021a
 MATLAB_BIN                = C:/PROGRA~1/MATLAB/R2021a/bin
 MATLAB_ARCH_BIN           = $(MATLAB_BIN)/win64
-START_DIR                 = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Model/EulerManeuverOptimization/fm_models/OptimalManeuver/cpp
+START_DIR                 = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/EulerManeuverOptimization/fm_models/OptimalManeuver/cpp
 TGT_FCN_LIB               = ISO_C++11
 SOLVER_OBJ                = 
 CLASSIC_INTERFACE         = 0
@@ -155,7 +155,7 @@ SHAREDLIB_LDFLAGS    = -shared -Wl,--no-undefined \
 ## OUTPUT INFO
 ###########################################################################
 
-PRODUCT = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Model/EulerManeuverOptimization/mb_OptimalManeuver.exe
+PRODUCT = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/EulerManeuverOptimization/mb_OptimalManeuver.exe
 PRODUCT_TYPE = "executable"
 BUILD_TYPE = "Executable"
 
@@ -331,11 +331,11 @@ $(PRODUCT) : $(OBJS) $(PREBUILT_OBJS)
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Model/EulerManeuverOptimization/%.c
+%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/EulerManeuverOptimization/%.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Model/EulerManeuverOptimization/%.cpp
+%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/EulerManeuverOptimization/%.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 

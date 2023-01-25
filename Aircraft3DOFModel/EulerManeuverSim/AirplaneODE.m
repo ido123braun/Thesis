@@ -22,22 +22,11 @@ vg_E=v_E+vW_E; % Airplane Ground Velocity Vector in Earth Coordiantes [m/sec]
 rho0=p.P0_STD/(p.R*p.Temp0); % Ground Air Density [kg/m^3]
 rho=rho0*(1+p.beta0*r_E(3)/p.Temp0)^(p.g/(p.R*p.beta0)-1); % Air Density [kg/m^3]
 
-W_E=[0; 0; W]; % Airplane Weight Vector in Earth Coordiantes [N]
-W_P=E2P*W_E; % Airplane Weight Vector in Velocity Coordiantes [N]
-
 [T,TSFC]=ThrustCalc(p,r_E,v,Js); % Thrust Force[N], Thrust Specific Fuel Consumption [N/N*sec]
 [alpha,CL,CD]=AerodynamicCalc(p,r_E,v,W,n); % Angle of Attack [rad], Lift Coefficient, Drag Coefficient
 
-T_P=[T*cos(alpha); 0; -T*sin(alpha)]; % Thrust Vector in Velocity Coordiantes [N]
 L=0.5*rho*(v^2)*p.S*CL; % Lift Force [N]
-L_P=[0; 0; -L]; % Lift Vector in Velocity Coordiantes [N]
 D=0.5*rho*(v^2)*p.S*CD; % Drag Force [N]
-D_P=[-D; 0; 0]; % Drag Vector in Velocity Coordiantes [N]
-
-F_P=W_P+L_P+D_P+T_P; % Equivalent Force Vector in Velocity Coordiantes [N]
-
-a_P=F_P./(W./p.g); % Airplane Acceleration Vector in Velocity Coordiantes [m/sec^2]
-a_E=transpose(E2P)*a_P; % Airplane Acceleration Vector in Earth Coordiantes [m/sec^2]
 
 if t<=p.tCom(end)
     Pcom=interp1(p.tCom(:),p.PCom(:),t);

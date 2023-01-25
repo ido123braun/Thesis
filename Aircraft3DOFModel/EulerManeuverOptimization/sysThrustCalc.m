@@ -1,19 +1,16 @@
-function [ T, TSFC] = sysThrustCalc(z_PE, vx_PE, vy_PE, vz_PE, Js_P)
+function [T, TSFC] = sysThrustCalc(z_E, v, Js)
 %SYSDRAGCOEFFICIENT Summary of this function goes here
 %   Detailed explanation goes here
 
 p=ConstantProperties();
 
-v=sqrt(vx_PE^2+vy_PE^2+vz_PE^2); %[m/sec]
+Temp=p.Temp0+p.beta0*z_E;
+rho0=p.P0_STD/(p.R*p.Temp0);
+rho=rho0*(1+p.beta0*z_E/p.Temp0)^(p.g/(p.R*p.beta0)-1); %[kg/m^3]
+M=v/sqrt(p.gammaR*p.R*Temp);
 
-Temp_P=p.Temp0+p.beta0*z_PE;
-rho0_P=p.P0_STD/(p.R*p.Temp0);
-rho_P=rho0_P*(1+p.beta0*z_PE/p.Temp0)^(p.g/(p.R*p.beta0)-1); %[kg/m^3]
-M=v/sqrt(p.gamma_R*p.R*Temp_P);
-
-T=Js_P*p.Tmax_P*((rho_P/p.rho0_STD)^p.Ta_P)*(1+p.Tm_P*M); %[N]
-% T=Js_P*p.Tmax_P*((rho_P/p.rho0_STD)^p.Ta_P);
-TSFC=p.TSFC_P;
+T=Js*p.Tmax*((rho/p.rho0_STD)^p.Ta)*(1+p.Tm*M); %[N]
+TSFC=p.TSFC;
 
 end
 

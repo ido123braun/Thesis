@@ -35,7 +35,7 @@ static real_T (*b_emlrt_marshallIn(const emlrtStack *sp,
 static real_T (*b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                    const emlrtMsgIdentifier *parentId))[3];
 
-static const mxArray *b_emlrt_marshallOut(const real_T u[8]);
+static const mxArray *b_emlrt_marshallOut(const real_T u[7]);
 
 static real_T (*c_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
                                    const emlrtMsgIdentifier *msgId))[11];
@@ -45,7 +45,7 @@ static const mxArray *c_emlrt_marshallOut(const real_T u[154]);
 static real_T (*d_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
                                    const emlrtMsgIdentifier *msgId))[3];
 
-static const mxArray *d_emlrt_marshallOut(const real_T u[112]);
+static const mxArray *d_emlrt_marshallOut(const real_T u[98]);
 
 static real_T (*emlrt_marshallIn(const emlrtStack *sp, const mxArray *states,
                                  const char_T *identifier))[11];
@@ -79,10 +79,10 @@ static real_T (*b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
   return y;
 }
 
-static const mxArray *b_emlrt_marshallOut(const real_T u[8])
+static const mxArray *b_emlrt_marshallOut(const real_T u[7])
 {
   static const int32_T i{0};
-  static const int32_T i1{8};
+  static const int32_T i1{7};
   const mxArray *m;
   const mxArray *y;
   y = nullptr;
@@ -131,10 +131,10 @@ static real_T (*d_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
   return ret;
 }
 
-static const mxArray *d_emlrt_marshallOut(const real_T u[112])
+static const mxArray *d_emlrt_marshallOut(const real_T u[98])
 {
   static const int32_T iv[2]{0, 0};
-  static const int32_T iv1[2]{8, 14};
+  static const int32_T iv1[2]{7, 14};
   const mxArray *m;
   const mxArray *y;
   y = nullptr;
@@ -190,16 +190,16 @@ void mb_OptimalManeuver_api(const mxArray *const prhs[2], int32_T nlhs,
       nullptr  // prev
   };
   real_T(*j_statesdot)[154];
-  real_T(*j_outputs)[112];
+  real_T(*j_outputs)[98];
   real_T(*states)[11];
   real_T(*statesdot)[11];
-  real_T(*outputs)[8];
+  real_T(*outputs)[7];
   real_T(*controls)[3];
   st.tls = emlrtRootTLSGlobal;
   statesdot = (real_T(*)[11])mxMalloc(sizeof(real_T[11]));
-  outputs = (real_T(*)[8])mxMalloc(sizeof(real_T[8]));
+  outputs = (real_T(*)[7])mxMalloc(sizeof(real_T[7]));
   j_statesdot = (real_T(*)[154])mxMalloc(sizeof(real_T[154]));
-  j_outputs = (real_T(*)[112])mxMalloc(sizeof(real_T[112]));
+  j_outputs = (real_T(*)[98])mxMalloc(sizeof(real_T[98]));
   // Marshall function inputs
   states = emlrt_marshallIn(&st, emlrtAlias(prhs[0]), "states");
   controls = b_emlrt_marshallIn(&st, emlrtAlias(prhs[1]), "controls");

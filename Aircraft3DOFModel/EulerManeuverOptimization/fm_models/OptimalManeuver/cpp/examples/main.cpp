@@ -75,10 +75,10 @@ static double argInit_real_T()
 static void main_mb_OptimalManeuver()
 {
   double j_statesdot[154];
-  double j_outputs[112];
+  double j_outputs[98];
   double dv[11];
   double statesdot[11];
-  double outputs[8];
+  double outputs[7];
   double dv1[3];
   // Initialize function 'mb_OptimalManeuver' input arguments.
   // Initialize function input argument 'states'.
