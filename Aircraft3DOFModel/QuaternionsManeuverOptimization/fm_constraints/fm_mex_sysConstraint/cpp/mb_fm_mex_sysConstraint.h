@@ -21,11 +21,11 @@
 #define CHAR16_T uint16_t
 #include "mex.h"
 // Function Declarations
-extern void mb_fm_mex_sysConstraint(const double outputs[16],
-                                    const double states[14],
+extern void mb_fm_mex_sysConstraint(const double outputs[10],
+                                    const double states[12],
                                     const double controls[3],
-                                    double constraintvalue[2],
-                                    double j_constraintvalue[66]);
+                                    double *constraintvalue,
+                                    double j_constraintvalue[25]);
 
 extern void mb_fm_mex_sysConstraint_initialize();
 

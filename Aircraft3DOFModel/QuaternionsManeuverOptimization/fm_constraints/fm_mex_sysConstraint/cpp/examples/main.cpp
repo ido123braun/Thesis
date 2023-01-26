@@ -38,9 +38,9 @@
 #include "mb_fm_mex_sysConstraint.h"
 
 // Function Declarations
-static void argInit_14x1_real_T(double result[14]);
+static void argInit_10x1_real_T(double result[10]);
 
-static void argInit_16x1_real_T(double result[16]);
+static void argInit_12x1_real_T(double result[12]);
 
 static void argInit_3x1_real_T(double result[3]);
 
@@ -49,20 +49,20 @@ static double argInit_real_T();
 static void main_mb_fm_mex_sysConstraint();
 
 // Function Definitions
-static void argInit_14x1_real_T(double result[14])
+static void argInit_10x1_real_T(double result[10])
 {
   // Loop over the array to initialize each element.
-  for (int idx0{0}; idx0 < 14; idx0++) {
+  for (int idx0{0}; idx0 < 10; idx0++) {
     // Set the value of the array element.
     // Change this value to the value that the application requires.
     result[idx0] = argInit_real_T();
   }
 }
 
-static void argInit_16x1_real_T(double result[16])
+static void argInit_12x1_real_T(double result[12])
 {
   // Loop over the array to initialize each element.
-  for (int idx0{0}; idx0 < 16; idx0++) {
+  for (int idx0{0}; idx0 < 12; idx0++) {
     // Set the value of the array element.
     // Change this value to the value that the application requires.
     result[idx0] = argInit_real_T();
@@ -86,20 +86,20 @@ static double argInit_real_T()
 
 static void main_mb_fm_mex_sysConstraint()
 {
-  double j_constraintvalue[66];
-  double dv[16];
-  double dv1[14];
+  double j_constraintvalue[25];
+  double dv1[12];
+  double dv[10];
   double dv2[3];
-  double constraintvalue[2];
+  double constraintvalue;
   // Initialize function 'mb_fm_mex_sysConstraint' input arguments.
   // Initialize function input argument 'outputs'.
   // Initialize function input argument 'states'.
   // Initialize function input argument 'controls'.
   // Call the entry-point 'mb_fm_mex_sysConstraint'.
-  argInit_16x1_real_T(dv);
-  argInit_14x1_real_T(dv1);
+  argInit_10x1_real_T(dv);
+  argInit_12x1_real_T(dv1);
   argInit_3x1_real_T(dv2);
-  mb_fm_mex_sysConstraint(dv, dv1, dv2, constraintvalue, j_constraintvalue);
+  mb_fm_mex_sysConstraint(dv, dv1, dv2, &constraintvalue, j_constraintvalue);
 }
 
 int main(int, char **)

@@ -2,8 +2,8 @@
 ## Makefile generated for component 'mb_fm_mex_sysConstraint'. 
 ## 
 ## Makefile     : mb_fm_mex_sysConstraint_rtw.mk
-## Generated on : Tue Jan 17 20:53:13 2023
-## Final product: C:/Users/ido12/Documents/MATLAB/Projects/Thesis/QuaternionsManeuverOptinization/mb_fm_mex_sysConstraint.exe
+## Generated on : Thu Jan 26 17:22:10 2023
+## Final product: C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/QuaternionsManeuverOptimization/mb_fm_mex_sysConstraint.exe
 ## Product type : executable
 ## 
 ###########################################################################
@@ -23,7 +23,7 @@ MAKEFILE                  = mb_fm_mex_sysConstraint_rtw.mk
 MATLAB_ROOT               = C:/PROGRA~1/MATLAB/R2021a
 MATLAB_BIN                = C:/PROGRA~1/MATLAB/R2021a/bin
 MATLAB_ARCH_BIN           = $(MATLAB_BIN)/win64
-START_DIR                 = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/QuaternionsManeuverOptinization/fm_constraints/fm_mex_sysConstraint/cpp
+START_DIR                 = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/QuaternionsManeuverOptimization/fm_constraints/fm_mex_sysConstraint/cpp
 TGT_FCN_LIB               = ISO_C++11
 SOLVER_OBJ                = 
 CLASSIC_INTERFACE         = 0
@@ -155,7 +155,7 @@ SHAREDLIB_LDFLAGS    = -shared -Wl,--no-undefined \
 ## OUTPUT INFO
 ###########################################################################
 
-PRODUCT = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/QuaternionsManeuverOptinization/mb_fm_mex_sysConstraint.exe
+PRODUCT = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/QuaternionsManeuverOptimization/mb_fm_mex_sysConstraint.exe
 PRODUCT_TYPE = "executable"
 BUILD_TYPE = "Executable"
 
@@ -331,11 +331,11 @@ $(PRODUCT) : $(OBJS) $(PREBUILT_OBJS)
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/QuaternionsManeuverOptinization/%.c
+%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/QuaternionsManeuverOptimization/%.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/QuaternionsManeuverOptinization/%.cpp
+%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/QuaternionsManeuverOptimization/%.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 

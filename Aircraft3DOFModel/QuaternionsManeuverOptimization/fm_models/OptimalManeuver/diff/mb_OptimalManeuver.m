@@ -6,138 +6,126 @@ function [ statesdot, outputs, j_statesdot, j_outputs ] = mb_OptimalManeuver(sta
 x_E = states(1);
 y_E = states(2);
 z_E = states(3);
-vx_E = states(4);
-vy_E = states(5);
-vz_E = states(6);
-e0 = states(7);
-e1 = states(8);
-e2 = states(9);
-e3 = states(10);
-W_P = states(11);
-phidot_P = states(12);
-Js_P = states(13);
-n_P = states(14);
-phidotcom_P = controls(1);
-Jscom_P = controls(2);
-ncom_P = controls(3);
+v = states(4);
+e0 = states(5);
+e1 = states(6);
+e2 = states(7);
+e3 = states(8);
+W = states(9);
+P = states(10);
+Js = states(11);
+n = states(12);
+Pcom = controls(1);
+Jscom = controls(2);
+ncom = controls(3);
 
 %=== Jacobians and Hessians ===============================================
-j_states = zeros(14, 17);
-j_states(:, 1 : 14) = eye(14);
+j_states = zeros(12, 15);
+j_states(:, 1 : 12) = eye(12);
 j_x_E = j_states(1, :);
 j_y_E = j_states(2, :);
 j_z_E = j_states(3, :);
-j_vx_E = j_states(4, :);
-j_vy_E = j_states(5, :);
-j_vz_E = j_states(6, :);
-j_e0 = j_states(7, :);
-j_e1 = j_states(8, :);
-j_e2 = j_states(9, :);
-j_e3 = j_states(10, :);
-j_W_P = j_states(11, :);
-j_phidot_P = j_states(12, :);
-j_Js_P = j_states(13, :);
-j_n_P = j_states(14, :);
-j_controls = zeros(3, 17);
-j_controls(:, 15 : 17) = eye(3);
-j_phidotcom_P = j_controls(1, :);
-j_Jscom_P = j_controls(2, :);
-j_ncom_P = j_controls(3, :);
+j_v = j_states(4, :);
+j_e0 = j_states(5, :);
+j_e1 = j_states(6, :);
+j_e2 = j_states(7, :);
+j_e3 = j_states(8, :);
+j_W = j_states(9, :);
+j_P = j_states(10, :);
+j_Js = j_states(11, :);
+j_n = j_states(12, :);
+j_controls = zeros(3, 15);
+j_controls(:, 13 : 15) = eye(3);
+j_Pcom = j_controls(1, :);
+j_Jscom = j_controls(2, :);
+j_ncom = j_controls(3, :);
 
 %=== Write Constants ======================================================
 
 %=== Subsystem sysPositionPropagation =====================================
 
-% Defined at main (main.m:57)
+% Defined at main (main.m:49)
 
-% Call sys_70f1ab52b326654d8650384e6c66097e_jac
-[ rdot_PE, j_rdot_PE ] = sys_70f1ab52b326654d8650384e6c66097e_jac(vx_E, vy_E, vz_E);
+% Call sys_9ad26b3366587637edbbdc61512a5773_jac
+[ rdot_E, phi, gamma, psi, j_rdot_E, j_phi, j_gamma, j_psi ] = sys_9ad26b3366587637edbbdc61512a5773_jac(v, e0, e1, e2, e3);
 
-% Hessian Jacobian for sys_70f1ab52b326654d8650384e6c66097e_jac
-tmp_j_input_sys_70f1ab52b326654d8650384e6c66097e_jac = [j_vx_E; j_vy_E; j_vz_E];
+% Hessian Jacobian for sys_9ad26b3366587637edbbdc61512a5773_jac
+tmp_j_input_sys_9ad26b3366587637edbbdc61512a5773_jac = [j_v; j_e0; j_e1; j_e2; j_e3];
 
-% Calculation of Jacobian with respect to function global input for sys_70f1ab52b326654d8650384e6c66097e_jac
-j_rdot_PE = j_rdot_PE * tmp_j_input_sys_70f1ab52b326654d8650384e6c66097e_jac;
-
-%=== Subsystem sysThrustCalc ==============================================
-
-% Defined at main (main.m:69)
-
-% Call sys_b653047fe439321d85b8e4c67c1d239e_jac
-[ T, TSFC, j_T, j_TSFC ] = sys_b653047fe439321d85b8e4c67c1d239e_jac(z_E, vx_E, vy_E, vz_E, Js_P);
-
-% Hessian Jacobian for sys_b653047fe439321d85b8e4c67c1d239e_jac
-tmp_j_input_sys_b653047fe439321d85b8e4c67c1d239e_jac = [j_z_E; j_vx_E; j_vy_E; j_vz_E; j_Js_P];
-
-% Calculation of Jacobian with respect to function global input for sys_b653047fe439321d85b8e4c67c1d239e_jac
-j_T = j_T * tmp_j_input_sys_b653047fe439321d85b8e4c67c1d239e_jac;
-j_TSFC = j_TSFC * tmp_j_input_sys_b653047fe439321d85b8e4c67c1d239e_jac;
+% Calculation of Jacobian with respect to function global input for sys_9ad26b3366587637edbbdc61512a5773_jac
+j_rdot_E = j_rdot_E * tmp_j_input_sys_9ad26b3366587637edbbdc61512a5773_jac;
+j_phi = j_phi * tmp_j_input_sys_9ad26b3366587637edbbdc61512a5773_jac;
+j_gamma = j_gamma * tmp_j_input_sys_9ad26b3366587637edbbdc61512a5773_jac;
+j_psi = j_psi * tmp_j_input_sys_9ad26b3366587637edbbdc61512a5773_jac;
 
 %=== Subsystem sysAeroCalc ================================================
 
-% Defined at main (main.m:62)
+% Defined at main (main.m:54)
 
-% Call sys_ae427af578a359dbc76e23f19598e1e5_jac
-[ alpha, CL, CD, rho_P, j_alpha, j_CL, j_CD, j_rho_P ] = sys_ae427af578a359dbc76e23f19598e1e5_jac(z_E, vx_E, vy_E, vz_E, n_P, T, W_P);
+% Call sys_abd1dd15ef234fda3363cddb8e59878b_jac
+[ alpha, CL, CD, j_alpha, j_CL, j_CD ] = sys_abd1dd15ef234fda3363cddb8e59878b_jac(z_E, v, n, W);
 
-% Hessian Jacobian for sys_ae427af578a359dbc76e23f19598e1e5_jac
-tmp_j_input_sys_ae427af578a359dbc76e23f19598e1e5_jac = [j_z_E; j_vx_E; j_vy_E; j_vz_E; j_n_P; j_T; j_W_P];
+% Hessian Jacobian for sys_abd1dd15ef234fda3363cddb8e59878b_jac
+tmp_j_input_sys_abd1dd15ef234fda3363cddb8e59878b_jac = [j_z_E; j_v; j_n; j_W];
 
-% Calculation of Jacobian with respect to function global input for sys_ae427af578a359dbc76e23f19598e1e5_jac
-j_alpha = j_alpha * tmp_j_input_sys_ae427af578a359dbc76e23f19598e1e5_jac;
-j_CL = j_CL * tmp_j_input_sys_ae427af578a359dbc76e23f19598e1e5_jac;
-j_CD = j_CD * tmp_j_input_sys_ae427af578a359dbc76e23f19598e1e5_jac;
-j_rho_P = j_rho_P * tmp_j_input_sys_ae427af578a359dbc76e23f19598e1e5_jac;
+% Calculation of Jacobian with respect to function global input for sys_abd1dd15ef234fda3363cddb8e59878b_jac
+j_alpha = j_alpha * tmp_j_input_sys_abd1dd15ef234fda3363cddb8e59878b_jac;
+j_CL = j_CL * tmp_j_input_sys_abd1dd15ef234fda3363cddb8e59878b_jac;
+j_CD = j_CD * tmp_j_input_sys_abd1dd15ef234fda3363cddb8e59878b_jac;
+
+%=== Subsystem sysThrustCalc ==============================================
+
+% Defined at main (main.m:59)
+
+% Call sys_674cfd48df4a3213d3be218b57f43a70_jac
+[ T, TSFC, j_T, j_TSFC ] = sys_674cfd48df4a3213d3be218b57f43a70_jac(z_E, v, Js);
+
+% Hessian Jacobian for sys_674cfd48df4a3213d3be218b57f43a70_jac
+tmp_j_input_sys_674cfd48df4a3213d3be218b57f43a70_jac = [j_z_E; j_v; j_Js];
+
+% Calculation of Jacobian with respect to function global input for sys_674cfd48df4a3213d3be218b57f43a70_jac
+j_T = j_T * tmp_j_input_sys_674cfd48df4a3213d3be218b57f43a70_jac;
+j_TSFC = j_TSFC * tmp_j_input_sys_674cfd48df4a3213d3be218b57f43a70_jac;
 
 %=== Subsystem sysTranslationPropagation ==================================
 
-% Defined at main (main.m:76)
+% Defined at main (main.m:64)
 
-% Call sys_ea955d09cf58549297c8a3c36e04d747_jac
-[ vdot_PE, phi_P, edot_P, Wdot_P, gamma_P, psi_P, Omega_P, j_vdot_PE, j_phi_P, j_edot_P, j_Wdot_P, j_gamma_P, j_psi_P, j_Omega_P ] = sys_ea955d09cf58549297c8a3c36e04d747_jac(z_E, vx_E, vy_E, vz_E, e0, e1, e2, e3, phidot_P, T, CD, CL, W_P, alpha, TSFC);
+% Call sys_5fe1108a3442fb37379a14c6cc0d697e_jac
+[ vdot, edot_P, Wdot, ng, Wneg, j_vdot, j_edot_P, j_Wdot, j_ng, j_Wneg ] = sys_5fe1108a3442fb37379a14c6cc0d697e_jac(z_E, v, e0, e1, e2, e3, W, P, T, CD, CL, alpha, TSFC);
 
-% Hessian Jacobian for sys_ea955d09cf58549297c8a3c36e04d747_jac
-tmp_j_input_sys_ea955d09cf58549297c8a3c36e04d747_jac = [j_z_E; j_vx_E; j_vy_E; j_vz_E; j_e0; j_e1; j_e2; j_e3; j_phidot_P; j_T; j_CD; j_CL; j_W_P; j_alpha; j_TSFC];
+% Hessian Jacobian for sys_5fe1108a3442fb37379a14c6cc0d697e_jac
+tmp_j_input_sys_5fe1108a3442fb37379a14c6cc0d697e_jac = [j_z_E; j_v; j_e0; j_e1; j_e2; j_e3; j_W; j_P; j_T; j_CD; j_CL; j_alpha; j_TSFC];
 
-% Calculation of Jacobian with respect to function global input for sys_ea955d09cf58549297c8a3c36e04d747_jac
-j_vdot_PE = j_vdot_PE * tmp_j_input_sys_ea955d09cf58549297c8a3c36e04d747_jac;
-j_phi_P = j_phi_P * tmp_j_input_sys_ea955d09cf58549297c8a3c36e04d747_jac;
-j_edot_P = j_edot_P * tmp_j_input_sys_ea955d09cf58549297c8a3c36e04d747_jac;
-j_Wdot_P = j_Wdot_P * tmp_j_input_sys_ea955d09cf58549297c8a3c36e04d747_jac;
-j_gamma_P = j_gamma_P * tmp_j_input_sys_ea955d09cf58549297c8a3c36e04d747_jac;
-j_psi_P = j_psi_P * tmp_j_input_sys_ea955d09cf58549297c8a3c36e04d747_jac;
-j_Omega_P = j_Omega_P * tmp_j_input_sys_ea955d09cf58549297c8a3c36e04d747_jac;
+% Calculation of Jacobian with respect to function global input for sys_5fe1108a3442fb37379a14c6cc0d697e_jac
+j_vdot = j_vdot * tmp_j_input_sys_5fe1108a3442fb37379a14c6cc0d697e_jac;
+j_edot_P = j_edot_P * tmp_j_input_sys_5fe1108a3442fb37379a14c6cc0d697e_jac;
+j_Wdot = j_Wdot * tmp_j_input_sys_5fe1108a3442fb37379a14c6cc0d697e_jac;
+j_ng = j_ng * tmp_j_input_sys_5fe1108a3442fb37379a14c6cc0d697e_jac;
+j_Wneg = j_Wneg * tmp_j_input_sys_5fe1108a3442fb37379a14c6cc0d697e_jac;
 
 %=== Subsystem sysCommandsDelay ===========================================
 
-% Defined at main (main.m:81)
+% Defined at main (main.m:69)
 
 % Call sys_2e11da000b4bbadf99d6dd9a0951f18b_jac
-[ phidot2_P, Jsdot_P, ndot_P, j_phidot2_P, j_Jsdot_P, j_ndot_P ] = sys_2e11da000b4bbadf99d6dd9a0951f18b_jac(phidot_P, Js_P, n_P, phidotcom_P, Jscom_P, ncom_P);
+[ Pdot, Jsdot, ndot, j_Pdot, j_Jsdot, j_ndot ] = sys_2e11da000b4bbadf99d6dd9a0951f18b_jac(P, Js, n, Pcom, Jscom, ncom);
 
 % Hessian Jacobian for sys_2e11da000b4bbadf99d6dd9a0951f18b_jac
-tmp_j_input_sys_2e11da000b4bbadf99d6dd9a0951f18b_jac = [j_phidot_P; j_Js_P; j_n_P; j_phidotcom_P; j_Jscom_P; j_ncom_P];
+tmp_j_input_sys_2e11da000b4bbadf99d6dd9a0951f18b_jac = [j_P; j_Js; j_n; j_Pcom; j_Jscom; j_ncom];
 
 % Calculation of Jacobian with respect to function global input for sys_2e11da000b4bbadf99d6dd9a0951f18b_jac
-j_phidot2_P = j_phidot2_P * tmp_j_input_sys_2e11da000b4bbadf99d6dd9a0951f18b_jac;
-j_Jsdot_P = j_Jsdot_P * tmp_j_input_sys_2e11da000b4bbadf99d6dd9a0951f18b_jac;
-j_ndot_P = j_ndot_P * tmp_j_input_sys_2e11da000b4bbadf99d6dd9a0951f18b_jac;
+j_Pdot = j_Pdot * tmp_j_input_sys_2e11da000b4bbadf99d6dd9a0951f18b_jac;
+j_Jsdot = j_Jsdot * tmp_j_input_sys_2e11da000b4bbadf99d6dd9a0951f18b_jac;
+j_ndot = j_ndot * tmp_j_input_sys_2e11da000b4bbadf99d6dd9a0951f18b_jac;
 
-%=== Split Variable rdot_PE ===============================================
-xdot_E = rdot_PE(1.');
-j_xdot_E = [j_rdot_PE(1,:)];
-ydot_E = rdot_PE(2.');
-j_ydot_E = [j_rdot_PE(2,:)];
-zdot_E = rdot_PE(3.');
-j_zdot_E = [j_rdot_PE(3,:)];
-
-%=== Split Variable vdot_PE ===============================================
-vxdot_E = vdot_PE(1.');
-j_vxdot_E = [j_vdot_PE(1,:)];
-vydot_E = vdot_PE(2.');
-j_vydot_E = [j_vdot_PE(2,:)];
-vzdot_E = vdot_PE(3.');
-j_vzdot_E = [j_vdot_PE(3,:)];
+%=== Split Variable rdot_E ================================================
+xdot_E = rdot_E(1.');
+j_xdot_E = [j_rdot_E(1,:)];
+ydot_E = rdot_E(2.');
+j_ydot_E = [j_rdot_E(2,:)];
+zdot_E = rdot_E(3.');
+j_zdot_E = [j_rdot_E(3,:)];
 
 %=== Split Variable edot_P ================================================
 e0dot = edot_P(1.');
@@ -149,52 +137,36 @@ j_e2dot = [j_edot_P(3,:)];
 e3dot = edot_P(4.');
 j_e3dot = [j_edot_P(4,:)];
 
-%=== Split Variable Omega_P ===============================================
-Omega1_P = Omega_P(1.');
-j_Omega1_P = [j_Omega_P(1,:)];
-Omega2_P = Omega_P(2.');
-j_Omega2_P = [j_Omega_P(2,:)];
-Omega3_P = Omega_P(3.');
-j_Omega3_P = [j_Omega_P(3,:)];
-
 % Combine Variables to statesdot
-statesdot = [xdot_E; ydot_E; zdot_E; vxdot_E; vydot_E; vzdot_E; e0dot; e1dot; e2dot; e3dot; Wdot_P; phidot2_P; Jsdot_P; ndot_P];
+statesdot = [xdot_E; ydot_E; zdot_E; vdot; e0dot; e1dot; e2dot; e3dot; Wdot; Pdot; Jsdot; ndot];
 j_statesdot = [
     j_xdot_E(1, :)
     j_ydot_E(1, :)
     j_zdot_E(1, :)
-    j_vxdot_E(1, :)
-    j_vydot_E(1, :)
-    j_vzdot_E(1, :)
+    j_vdot(1, :)
     j_e0dot(1, :)
     j_e1dot(1, :)
     j_e2dot(1, :)
     j_e3dot(1, :)
-    j_Wdot_P(1, :)
-    j_phidot2_P(1, :)
-    j_Jsdot_P(1, :)
-    j_ndot_P(1, :)
+    j_Wdot(1, :)
+    j_Pdot(1, :)
+    j_Jsdot(1, :)
+    j_ndot(1, :)
 ];
 
 % Combine Variables to outputs
-outputs = [phi_P; gamma_P; psi_P; alpha; CL; CD; T; TSFC; rho_P; Omega1_P; Omega2_P; Omega3_P; e0dot; e1dot; e2dot; e3dot];
+outputs = [phi; gamma; psi; alpha; CL; CD; T; TSFC; ng; Wneg];
 j_outputs = [
-    j_phi_P(1, :)
-    j_gamma_P(1, :)
-    j_psi_P(1, :)
+    j_phi(1, :)
+    j_gamma(1, :)
+    j_psi(1, :)
     j_alpha(1, :)
     j_CL(1, :)
     j_CD(1, :)
     j_T(1, :)
     j_TSFC(1, :)
-    j_rho_P(1, :)
-    j_Omega1_P(1, :)
-    j_Omega2_P(1, :)
-    j_Omega3_P(1, :)
-    j_e0dot(1, :)
-    j_e1dot(1, :)
-    j_e2dot(1, :)
-    j_e3dot(1, :)
+    j_ng(1, :)
+    j_Wneg(1, :)
 ];
 
 end

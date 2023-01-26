@@ -1,4 +1,4 @@
-// Call Function generated automatically on 17-Jan-2023 22:25:34
+// Call Function generated automatically on 26-Jan-2023 17:22:11
 // Created on LAPTOP-P2LD3FGQ
 #include "cstdint"
 #include "mex.h"
@@ -8,15 +8,15 @@
 #include "mb_fm_mex_sysConstraint_types.h"
 
 // Constants - Input Dimensions
-#define DIM_M_OUTPUTS 16
-#define DIM_M_STATES 14
+#define DIM_M_OUTPUTS 10
+#define DIM_M_STATES 12
 #define DIM_M_CONTROLS 3
 
 // Constants - Number of Independent Variables (non discrete control case)
-#define N_IDP 33
+#define N_IDP 25
 
 // Constants - Output Sizes
-#define NUM_OUT_CONSTRAINTVALUE 2
+#define NUM_OUT_CONSTRAINTVALUE 1
 
 // Function Header
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) try {
@@ -39,7 +39,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) try
         // System Information
         mexPrintf("<strong>System Information</strong>\n");
         mexPrintf("Mex file created by Derivative Model Builder\n");
-        mexPrintf("- Date:                17-Jan-2023 22:25:34\n");
+        mexPrintf("- Date:                26-Jan-2023 17:22:11\n");
         mexPrintf("- Computer:            LAPTOP-P2LD3FGQ\n");
         mexPrintf("- MATLAB-Version:      9.10.0.1602886 (R2021a)\n");
         mexPrintf("- DerivativeOrder:     1\n");
@@ -50,51 +50,43 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) try
         // Input Information
         mexPrintf("<strong>Input Information</strong>\n");
         mexPrintf("<strong>Name</strong>     <strong>Size</strong>   <strong>DataType</strong> <strong>Derivative</strong> <strong>MultipleTimeEval</strong> <strong>VariableSize</strong>\n");
-        mexPrintf("outputs  [16 1] double       true             true        false\n");
-        mexPrintf("| phi_P\n");
-        mexPrintf("| gamma_P\n");
-        mexPrintf("| psi_P\n");
+        mexPrintf("outputs  [10 1] double       true             true        false\n");
+        mexPrintf("| phi\n");
+        mexPrintf("| gamma\n");
+        mexPrintf("| psi\n");
         mexPrintf("| alpha\n");
         mexPrintf("| CL\n");
         mexPrintf("| CD\n");
         mexPrintf("| T\n");
         mexPrintf("| TSFC\n");
-        mexPrintf("| rho_P\n");
-        mexPrintf("| Omega1_P\n");
-        mexPrintf("| Omega2_P\n");
-        mexPrintf("| Omega3_P\n");
-        mexPrintf("| e0dot\n");
-        mexPrintf("| e1dot\n");
-        mexPrintf("| e2dot\n");
-        mexPrintf("| e3dot\n");
+        mexPrintf("| ng\n");
+        mexPrintf("| Wneg\n");
         mexPrintf("\n");
-        mexPrintf("states   [14 1] double       true             true        false\n");
+        mexPrintf("states   [12 1] double       true             true        false\n");
         mexPrintf("| x_E\n");
         mexPrintf("| y_E\n");
         mexPrintf("| z_E\n");
-        mexPrintf("| vx_E\n");
-        mexPrintf("| vy_E\n");
-        mexPrintf("| vz_E\n");
+        mexPrintf("| v\n");
         mexPrintf("| e0\n");
         mexPrintf("| e1\n");
         mexPrintf("| e2\n");
         mexPrintf("| e3\n");
-        mexPrintf("| W_P\n");
-        mexPrintf("| phidot_P\n");
-        mexPrintf("| Js_P\n");
-        mexPrintf("| n_P\n");
+        mexPrintf("| W\n");
+        mexPrintf("| P\n");
+        mexPrintf("| Js\n");
+        mexPrintf("| n\n");
         mexPrintf("\n");
         mexPrintf("controls [3 1]  double       true             true        false\n");
-        mexPrintf("| phidotcom_P\n");
-        mexPrintf("| Jscom_P\n");
-        mexPrintf("| ncom_P\n");
+        mexPrintf("| Pcom\n");
+        mexPrintf("| Jscom\n");
+        mexPrintf("| ncom\n");
         mexPrintf("\n");
         mexPrintf("\n");
 
         // Output Information
         mexPrintf("<strong>Output Information</strong>\n");
         mexPrintf("<strong>Name</strong>            <strong>Size</strong> \n");
-        mexPrintf("constraintvalue [2 1]\n");
+        mexPrintf("constraintvalue [1 1]\n");
 
         return;
     }
@@ -117,52 +109,44 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) try
 
         struct_inputs = mxCreateStructMatrix(3,1,7,i_names);
 
-        mxSetField(struct_inputs, 0, i_names[0], mxCreateDoubleScalar(16));
+        mxSetField(struct_inputs, 0, i_names[0], mxCreateDoubleScalar(10));
         mxSetField(struct_inputs, 0, i_names[1], mxCreateDoubleScalar(1));
         mxSetField(struct_inputs, 0, i_names[2], mxCreateString("outputs"));
         mxSetField(struct_inputs, 0, i_names[4], mxCreateString("OUTPUT"));
         mxSetField(struct_inputs, 0, i_names[5], mxCreateDoubleScalar(0));
         mxSetField(struct_inputs, 0, i_names[6], mxCreateString("double"));
-        mx = mxCreateCellMatrix(16, 1);
-        mxSetCell(mx, 0,  mxCreateString("phi_P"));
-        mxSetCell(mx, 1,  mxCreateString("gamma_P"));
-        mxSetCell(mx, 2,  mxCreateString("psi_P"));
+        mx = mxCreateCellMatrix(10, 1);
+        mxSetCell(mx, 0,  mxCreateString("phi"));
+        mxSetCell(mx, 1,  mxCreateString("gamma"));
+        mxSetCell(mx, 2,  mxCreateString("psi"));
         mxSetCell(mx, 3,  mxCreateString("alpha"));
         mxSetCell(mx, 4,  mxCreateString("CL"));
         mxSetCell(mx, 5,  mxCreateString("CD"));
         mxSetCell(mx, 6,  mxCreateString("T"));
         mxSetCell(mx, 7,  mxCreateString("TSFC"));
-        mxSetCell(mx, 8,  mxCreateString("rho_P"));
-        mxSetCell(mx, 9,  mxCreateString("Omega1_P"));
-        mxSetCell(mx, 10,  mxCreateString("Omega2_P"));
-        mxSetCell(mx, 11,  mxCreateString("Omega3_P"));
-        mxSetCell(mx, 12,  mxCreateString("e0dot"));
-        mxSetCell(mx, 13,  mxCreateString("e1dot"));
-        mxSetCell(mx, 14,  mxCreateString("e2dot"));
-        mxSetCell(mx, 15,  mxCreateString("e3dot"));
+        mxSetCell(mx, 8,  mxCreateString("ng"));
+        mxSetCell(mx, 9,  mxCreateString("Wneg"));
         mxSetField(struct_inputs, 0, i_names[3], mx);
 
-        mxSetField(struct_inputs, 1, i_names[0], mxCreateDoubleScalar(14));
+        mxSetField(struct_inputs, 1, i_names[0], mxCreateDoubleScalar(12));
         mxSetField(struct_inputs, 1, i_names[1], mxCreateDoubleScalar(1));
         mxSetField(struct_inputs, 1, i_names[2], mxCreateString("states"));
         mxSetField(struct_inputs, 1, i_names[4], mxCreateString("STATE"));
         mxSetField(struct_inputs, 1, i_names[5], mxCreateDoubleScalar(0));
         mxSetField(struct_inputs, 1, i_names[6], mxCreateString("double"));
-        mx = mxCreateCellMatrix(14, 1);
+        mx = mxCreateCellMatrix(12, 1);
         mxSetCell(mx, 0,  mxCreateString("x_E"));
         mxSetCell(mx, 1,  mxCreateString("y_E"));
         mxSetCell(mx, 2,  mxCreateString("z_E"));
-        mxSetCell(mx, 3,  mxCreateString("vx_E"));
-        mxSetCell(mx, 4,  mxCreateString("vy_E"));
-        mxSetCell(mx, 5,  mxCreateString("vz_E"));
-        mxSetCell(mx, 6,  mxCreateString("e0"));
-        mxSetCell(mx, 7,  mxCreateString("e1"));
-        mxSetCell(mx, 8,  mxCreateString("e2"));
-        mxSetCell(mx, 9,  mxCreateString("e3"));
-        mxSetCell(mx, 10,  mxCreateString("W_P"));
-        mxSetCell(mx, 11,  mxCreateString("phidot_P"));
-        mxSetCell(mx, 12,  mxCreateString("Js_P"));
-        mxSetCell(mx, 13,  mxCreateString("n_P"));
+        mxSetCell(mx, 3,  mxCreateString("v"));
+        mxSetCell(mx, 4,  mxCreateString("e0"));
+        mxSetCell(mx, 5,  mxCreateString("e1"));
+        mxSetCell(mx, 6,  mxCreateString("e2"));
+        mxSetCell(mx, 7,  mxCreateString("e3"));
+        mxSetCell(mx, 8,  mxCreateString("W"));
+        mxSetCell(mx, 9,  mxCreateString("P"));
+        mxSetCell(mx, 10,  mxCreateString("Js"));
+        mxSetCell(mx, 11,  mxCreateString("n"));
         mxSetField(struct_inputs, 1, i_names[3], mx);
 
         mxSetField(struct_inputs, 2, i_names[0], mxCreateDoubleScalar(3));
@@ -172,38 +156,36 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) try
         mxSetField(struct_inputs, 2, i_names[5], mxCreateDoubleScalar(0));
         mxSetField(struct_inputs, 2, i_names[6], mxCreateString("double"));
         mx = mxCreateCellMatrix(3, 1);
-        mxSetCell(mx, 0,  mxCreateString("phidotcom_P"));
-        mxSetCell(mx, 1,  mxCreateString("Jscom_P"));
-        mxSetCell(mx, 2,  mxCreateString("ncom_P"));
+        mxSetCell(mx, 0,  mxCreateString("Pcom"));
+        mxSetCell(mx, 1,  mxCreateString("Jscom"));
+        mxSetCell(mx, 2,  mxCreateString("ncom"));
         mxSetField(struct_inputs, 2, i_names[3], mx);
         mxSetField(plhs[0], 0, names[0], struct_inputs);
 
         struct_outputs = mxCreateStructMatrix(1,1,7,o_names);
 
-        mxSetField(struct_outputs, 0, o_names[0], mxCreateDoubleScalar(2));
+        mxSetField(struct_outputs, 0, o_names[0], mxCreateDoubleScalar(1));
         mxSetField(struct_outputs, 0, o_names[1], mxCreateDoubleScalar(1));
         mxSetField(struct_outputs, 0, o_names[2], mxCreateString("constraintvalue"));
         mxSetField(struct_outputs, 0, o_names[4], mxCreateString("VALUE"));
-        mx = mxCreateDoubleMatrix(2, 33, mxREAL);
+        mx = mxCreateDoubleMatrix(1, 25, mxREAL);
         jacTemp = reinterpret_cast<double *>(mxGetPr(mx));
-        std::fill_n(jacTemp, 66, 0);
-        jacTemp[39] = 1.000000;
-        jacTemp[41] = 1.000000;
-        jacTemp[43] = 1.000000;
-        jacTemp[44] = 1.000000;
-        jacTemp[46] = 1.000000;
-        jacTemp[48] = 1.000000;
-        jacTemp[50] = 1.000000;
+        std::fill_n(jacTemp, 25, 0);
+        jacTemp[14] = 1.000000;
+        jacTemp[15] = 1.000000;
+        jacTemp[16] = 1.000000;
+        jacTemp[17] = 1.000000;
         mxSetField(struct_outputs, 0, o_names[5], mx);
         mx = mxCreateDoubleMatrix(0, 0, mxREAL);
         hessTemp = reinterpret_cast<double *>(mxGetPr(mx));
         std::fill_n(hessTemp, 0, 0);
         mxSetField(struct_outputs, 0, o_names[6], mx);
-        mx = mxCreateCellMatrix(0,0);
+        mx = mxCreateCellMatrix(1, 1);
+        mxSetCell(mx, 0,  mxCreateString("constraintvaluetmp"));
         mxSetField(struct_outputs, 0, o_names[3], mx);
         mxSetField(plhs[0], 0, names[1], struct_outputs);
         struct_info = mxCreateStructMatrix(1,1,7,info_names);
-        mxSetField(struct_info, 0, info_names[0], mxCreateString("17-Jan-2023 22:25:35"));
+        mxSetField(struct_info, 0, info_names[0], mxCreateString("26-Jan-2023 17:22:11"));
         mxSetField(struct_info, 0, info_names[1], mxCreateString("LAPTOP-P2LD3FGQ"));
         mxSetField(struct_info, 0, info_names[2], mxCreateString("9.10.0.1602886 (R2021a)"));
         mxSetField(struct_info, 0, info_names[3], mxCreateDoubleScalar(1));
@@ -240,14 +222,14 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) try
     // Check Input Dimensions
     // Input_1: outputs
     if (mxGetM(array_outputs) != DIM_M_OUTPUTS) {
-        mexErrMsgIdAndTxt("MATLAB:callModel:Error", "Number of rows for input 1 with name \"outputs\" should be 16 but is %i.", mxGetM(prhs[0]));
+        mexErrMsgIdAndTxt("MATLAB:callModel:Error", "Number of rows for input 1 with name \"outputs\" should be 10 but is %i.", mxGetM(prhs[0]));
     }
     if (mxGetN(array_outputs) != nEval) {
         mexErrMsgIdAndTxt("MATLAB:callModel:Error", "Number of columns for input 1 with name \"outputs\" should be equal to the number of time steps (%i) but is %i.", nEval, mxGetN(prhs[0]));
     }
     // Input_2: states
     if (mxGetM(array_states) != DIM_M_STATES) {
-        mexErrMsgIdAndTxt("MATLAB:callModel:Error", "Number of rows for input 2 with name \"states\" should be 14 but is %i.", mxGetM(prhs[1]));
+        mexErrMsgIdAndTxt("MATLAB:callModel:Error", "Number of rows for input 2 with name \"states\" should be 12 but is %i.", mxGetM(prhs[1]));
     }
     if (mxGetN(array_states) != nEval) {
         mexErrMsgIdAndTxt("MATLAB:callModel:Error", "Number of columns for input 2 with name \"states\" should be equal to the number of time steps (%i) but is %i.", nEval, mxGetN(prhs[1]));
@@ -262,7 +244,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) try
 
     // Prepare jacobian and hessian dimensions
     // Output_1: constraintvalue
-    plhs[0] = mxCreateDoubleMatrix(2, 1*nEval, mxREAL);
+    plhs[0] = mxCreateDoubleMatrix(1, 1*nEval, mxREAL);
     constraintvalue = mxGetPr(plhs[0]);
     // Output_jacobian_1: constraintvalue
     j_dim_constraintvalue[0] = NUM_OUT_CONSTRAINTVALUE;

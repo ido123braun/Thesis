@@ -34,7 +34,7 @@ y_vec = [...
     falcon.Output('alpha', -40*pi/180, 40*pi/180, 1);
     falcon.Output('CL', -2, 2, 1);
     falcon.Output('CD', 0, 2, 1);
-    falcon.Output('T', 0, p.Tmax, 1);
+    falcon.Output('T', 0, p.Tmax_P, 1);
     falcon.Output('TSFC', 0, 0.01, 1);
     falcon.Output('ng', -3, 9.5, 1);
     falcon.Output('Wneg', -50000*0.4536*p.g, -20300*0.4536*p.g, 1e-5)];
@@ -48,7 +48,7 @@ mdl = falcon.SimulationModelBuilder('OptimalManeuver', x_vec, u_vec);
 % Calculate the position derivatives
 mdl.addSubsystem(@sysPositionPropagation,...
     {'v', 'e0', 'e1', 'e2', 'e3'},...       % Inputs
-    {'rdot_E', 'phi', 'gamma', 'psi'});   % Outputs
+    {'rdot_E'});   % Outputs
 
 % Calculate Aerodynamic Coefficients
 mdl.addSubsystem(@sysAeroCalc,...
@@ -76,7 +76,7 @@ mdl.SplitVariable('edot_P', {'e0dot', 'e1dot', 'e2dot', 'e3dot'}.');
 
 % Set the variable names of the derivatives to tell FALCON the correct
 % outputs
-mdl.setStateDerivativeNames('xdot_E', 'ydot_E', 'zdot_E', 'vdot', 'e0dot', 'e1dot', 'e2dot', 'e3dot', 'Wdot', 'Pdot', 'Jsdot', 'ndot');
+mdl.setStateDerivativeNames('xdot_E', 'ydot_E', 'zdot_E', 'vdot', 'e0dot', 'e1dot', 'e2dot', 'e3dot', 'Wdot_P', 'Pdot', 'Jsdot', 'ndot');
 
 % set the outputs
 mdl.setOutputs( y_vec );
@@ -142,20 +142,20 @@ e3min=sin(psifmin/2)*cos(gammafmin/2)*cos(phifmin/2)-cos(psifmin/2)*sin(gammafmi
 efmin_P=[e0min; e1min; e2min; e3min]; % Minimum Terminal Quaternion Vector
 
 e0max=cos(psifmax/2)*cos(gammafmax/2)*cos(phifmax/2)+sin(psifmax/2)*sin(gammafmax/2)*sin(phifmax/2); % Maximum Terminal Quaternion Parameter 0
-e1max=cos(psifmax/2)*cos(gammafmax/2)*sin(phifmax/2)-sin(psifmax/2)*sin(gammafmax/2)*cos(phifmax/2); % Maximum Terminal Quaternion Parameter 1
-e2max=cos(psifmax/2)*sin(gammafmax/2)*cos(phifmax/2)+sin(psifmax/2)*cos(gammafmax/2)*sin(phifmax/2); % Maximum Terminal Quaternion Parameter 2
-e3max=sin(psifmax/2)*cos(gammafmax/2)*cos(phifmax/2)-cos(psifmax/2)*sin(gammafmax/2)*sin(phifmax/2); % Maximum Terminal Quaternion Parameter 3
+e1min=cos(psifmax/2)*cos(gammafmax/2)*sin(phifmax/2)-sin(psifmax/2)*sin(gammafmax/2)*cos(phifmax/2); % Maximum Terminal Quaternion Parameter 1
+e2min=cos(psifmax/2)*sin(gammafmax/2)*cos(phifmax/2)+sin(psifmax/2)*cos(gammafmax/2)*sin(phifmax/2); % Maximum Terminal Quaternion Parameter 2
+e3min=sin(psifmax/2)*cos(gammafmax/2)*cos(phifmax/2)-cos(psifmax/2)*sin(gammafmax/2)*sin(phifmax/2); % Maximum Terminal Quaternion Parameter 3
 efmax_P=[e0max; e1max; e2max; e3max]; % Maximum Terminal Quaternion Vector
 
 % Set Boundary Conditions
 
 phase.setInitialBoundaries([r0_E ; v0; e0_P; W0; P0; Js0; n0]);
-phase.setFinalBoundaries([rfmin_E ; vfmin; efmin_P; Wfmin; Pfmin; Jsfmin; nfmin],[rfmax_E ; vfmax; efmax_P; Wfmax; Pfmax; Jsfmax; nfmax]);
+phase.setFinalBoundaries([rfmin_E ; vfmin; efmin_P; Wfmin; Pfmi; Jsfmin_P; nfmin_P],[rfmax_PE ; vfmax_PE; efmax_P; Wfmax_P; phidotf_P; Jsfmax_P; nfmax_P]);
 
 % Path Constraint
-
 % pathconstraints = [...
-%     falcon.Constraint('eConstraint', 1, 1)];
+%     falcon.Constraint('eConstraint', 1, 1);...
+%     falcon.Constraint('vConstraint', 50, 700)];
 % phase.addNewPathConstraint(@sysConstraint, pathconstraints,tau);
 
 % Add Cost Function
@@ -168,41 +168,42 @@ problem.Solve();
 
 t=phase.RealTime;
 
-r_E=phase.StateGrid.Values(1:3,:);
-v=phase.StateGrid.Values(4,:);
-e_P=phase.StateGrid.Values(5:8,:);
-W=phase.StateGrid.Values(9,:);
-P=phase.StateGrid.Values(10,:);
-Js=phase.StateGrid.Values(11,:);
-n=phase.StateGrid.Values(12,:);
+r_PE=phase.StateGrid.Values(1:3,:);
+v_PE=phase.StateGrid.Values(4:6,:);
+e_P=phase.StateGrid.Values(7:10,:);
+W_P=phase.StateGrid.Values(11,:);
+phidot_P=phase.StateGrid.Values(12,:);
+Js_P=phase.StateGrid.Values(13,:);
+n_P=phase.StateGrid.Values(14,:);
 
-Pcom=phase.ControlGrids.Values(1,:);
-Jscom=phase.ControlGrids.Values(2,:);
-ncom=phase.ControlGrids.Values(3,:);
+phidotcom_P=phase.ControlGrids.Values(1,:);
+Jscom_P=phase.ControlGrids.Values(2,:);
+ncom_P=phase.ControlGrids.Values(3,:);
 
-% phi_P=phase.Model.ModelOutputGrid.Values(1,:);
-% gamma_P=phase.Model.ModelOutputGrid.Values(2,:);
-% psi_P=phase.Model.ModelOutputGrid.Values(3,:);
-% alpha=phase.Model.ModelOutputGrid.Values(4,:);
-% CL=phase.Model.ModelOutputGrid.Values(5,:);
-% CD=phase.Model.ModelOutputGrid.Values(6,:);
-% T=phase.Model.ModelOutputGrid.Values(7,:);
-% TSFC=phase.Model.ModelOutputGrid.Values(8,:);
-% rho_P=phase.Model.ModelOutputGrid.Values(9,:);
-% Omega_P=phase.Model.ModelOutputGrid.Values(10:12,:);
-% edot=phase.Model.ModelOutputGrid.Values(13:16,:);
+phi_P=phase.Model.ModelOutputGrid.Values(1,:);
+gamma_P=phase.Model.ModelOutputGrid.Values(2,:);
+psi_P=phase.Model.ModelOutputGrid.Values(3,:);
+alpha=phase.Model.ModelOutputGrid.Values(4,:);
+CL=phase.Model.ModelOutputGrid.Values(5,:);
+CD=phase.Model.ModelOutputGrid.Values(6,:);
+T=phase.Model.ModelOutputGrid.Values(7,:);
+TSFC=phase.Model.ModelOutputGrid.Values(8,:);
+rho_P=phase.Model.ModelOutputGrid.Values(9,:);
+Omega_P=phase.Model.ModelOutputGrid.Values(10:12,:);
+edot=phase.Model.ModelOutputGrid.Values(13:16,:);
 
+v=sqrt(v_PE(1,:).^2+v_PE(2,:).^2+v_PE(3,:).^2);
 e=sqrt(e_P(1,:).^2+e_P(2,:).^2+e_P(3,:).^2+e_P(4,:).^2);
 
-ComDataMat=[t', Pcom', Jscom', ncom'];
+ComDataMat=[t', phidotcom_P', Jscom_P', ncom_P'];
 save ComData ComDataMat
 
 figure
 
 subplot(2,1,1);
 hold on
-plot(r_E(1,:),-r_E(3,:))
-scatter(r_E(1,1),-r_E(3,1),'fill','b');
+plot(r_PE(1,:),-r_PE(3,:))
+scatter(r_PE(1,1),-r_PE(3,1),'fill','b');
 xlabel('x [m]')
 ylabel('h [m]')
 axis equal
@@ -211,8 +212,8 @@ legend('Airplane Course','Airplane initial')
 
 subplot(2,1,2);
 hold on
-plot(r_E(2,:),r_E(1,:))
-scatter(r_E(2,1),r_E(1,1),'fill','b');
+plot(r_PE(2,:),r_PE(1,:))
+scatter(r_PE(2,1),r_PE(1,1),'fill','b');
 axis equal
 xlabel('y [m]')
 ylabel('x [m]')
@@ -220,8 +221,8 @@ grid
 
 figure
 hold on
-plot(v(:),-r_E(3,:))
-scatter(v(1),-r_E(3,1),'fill','b');
+plot(v(:),-r_PE(3,:))
+scatter(v(1),-r_PE(3,1),'fill','b');
 xlabel('v [m/sec]')
 ylabel('h [m]')
 % ylim([0 700])
@@ -230,8 +231,8 @@ legend('Airplane Course','Airplane initial')
 
 figure
 hold on
-plot(t(:),-r_E(3,:))
-scatter(t(1),-r_E(3,1),'fill','b');
+plot(t(:),-r_PE(3,:))
+scatter(t(1),-r_PE(3,1),'fill','b');
 xlabel('t [sec]')
 ylabel('h [m]')
 % ylim([0 700])

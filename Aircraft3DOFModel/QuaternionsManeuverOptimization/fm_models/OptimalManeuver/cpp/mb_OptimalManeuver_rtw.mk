@@ -2,8 +2,8 @@
 ## Makefile generated for component 'mb_OptimalManeuver'. 
 ## 
 ## Makefile     : mb_OptimalManeuver_rtw.mk
-## Generated on : Sat Jan 21 15:13:08 2023
-## Final product: C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Model/QuaternionsManeuverOptimization/mb_OptimalManeuver.exe
+## Generated on : Thu Jan 26 16:21:22 2023
+## Final product: C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/QuaternionsManeuverOptimization/mb_OptimalManeuver.exe
 ## Product type : executable
 ## 
 ###########################################################################
@@ -23,7 +23,7 @@ MAKEFILE                  = mb_OptimalManeuver_rtw.mk
 MATLAB_ROOT               = C:/PROGRA~1/MATLAB/R2021a
 MATLAB_BIN                = C:/PROGRA~1/MATLAB/R2021a/bin
 MATLAB_ARCH_BIN           = $(MATLAB_BIN)/win64
-START_DIR                 = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Model/QuaternionsManeuverOptimization/fm_models/OptimalManeuver/cpp
+START_DIR                 = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/QuaternionsManeuverOptimization/fm_models/OptimalManeuver/cpp
 TGT_FCN_LIB               = ISO_C++11
 SOLVER_OBJ                = 
 CLASSIC_INTERFACE         = 0
@@ -155,7 +155,7 @@ SHAREDLIB_LDFLAGS    = -shared -Wl,--no-undefined \
 ## OUTPUT INFO
 ###########################################################################
 
-PRODUCT = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Model/QuaternionsManeuverOptimization/mb_OptimalManeuver.exe
+PRODUCT = C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/QuaternionsManeuverOptimization/mb_OptimalManeuver.exe
 PRODUCT_TYPE = "executable"
 BUILD_TYPE = "Executable"
 
@@ -331,11 +331,11 @@ $(PRODUCT) : $(OBJS) $(PREBUILT_OBJS)
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Model/QuaternionsManeuverOptimization/%.c
+%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/QuaternionsManeuverOptimization/%.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Model/QuaternionsManeuverOptimization/%.cpp
+%.obj : C:/Users/ido12/Documents/MATLAB/Projects/Thesis/Aircraft3DOFModel/QuaternionsManeuverOptimization/%.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 

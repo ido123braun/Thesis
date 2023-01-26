@@ -22,9 +22,9 @@ extern emlrtCTX emlrtRootTLSGlobal;
 extern emlrtContext emlrtContextGlobal;
 
 // Function Declarations
-void mb_fm_mex_sysConstraint(real_T outputs[16], real_T states[14],
-                             real_T controls[3], real_T constraintvalue[2],
-                             real_T j_constraintvalue[66]);
+void mb_fm_mex_sysConstraint(real_T outputs[10], real_T states[12],
+                             real_T controls[3], real_T *constraintvalue,
+                             real_T j_constraintvalue[25]);
 
 void mb_fm_mex_sysConstraint_api(const mxArray *const prhs[3], int32_T nlhs,
                                  const mxArray *plhs[2]);

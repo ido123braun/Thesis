@@ -1,9 +1,9 @@
-function [phidot2_P, Jsdot_P, ndot_P] = sysCommandsDelay(phidot_P,Js_P,n_P,phidotcom_P,Jscom_P,ncom_P)
+function [Pdot, Jsdot, ndot] = sysCommandsDelay(P,Js,n,Pcom,Jscom,ncom)
 %SYSTRANSLATIONPROPAGATION Summary of this function goes here
 %   Detailed explanation goes here
 
 p=ConstantProperties();
 
-phidot2_P=-(phidot_P-phidotcom_P)./p.tau_phi;
-Jsdot_P=-(Js_P-Jscom_P)./p.tau_J;
-ndot_P=-(n_P-ncom_P)./p.tau_n;
+Pdot=-(P-Pcom)./p.tau_P; % Airplane Roll Rate Derivative [rad/sec^2]
+Jsdot=-(Js-Jscom)./p.tau_Js; % Airplane Throttle Derivative [1/sec]
+ndot=-(n-ncom)./p.tau_n; % Airplane Load Factor Derivative [1/sec]

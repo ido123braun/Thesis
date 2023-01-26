@@ -21,10 +21,10 @@
 #define CHAR16_T uint16_t
 #include "mex.h"
 // Function Declarations
-extern void mb_OptimalManeuver(const double states[14],
-                               const double controls[3], double statesdot[14],
-                               double outputs[16], double j_statesdot[238],
-                               double j_outputs[272]);
+extern void mb_OptimalManeuver(const double states[12],
+                               const double controls[3], double statesdot[12],
+                               double outputs[10], double j_statesdot[180],
+                               double j_outputs[150]);
 
 extern void mb_OptimalManeuver_initialize();
 

@@ -38,7 +38,7 @@
 #include "mb_OptimalManeuver.h"
 
 // Function Declarations
-static void argInit_14x1_real_T(double result[14]);
+static void argInit_12x1_real_T(double result[12]);
 
 static void argInit_3x1_real_T(double result[3]);
 
@@ -47,10 +47,10 @@ static double argInit_real_T();
 static void main_mb_OptimalManeuver();
 
 // Function Definitions
-static void argInit_14x1_real_T(double result[14])
+static void argInit_12x1_real_T(double result[12])
 {
   // Loop over the array to initialize each element.
-  for (int idx0{0}; idx0 < 14; idx0++) {
+  for (int idx0{0}; idx0 < 12; idx0++) {
     // Set the value of the array element.
     // Change this value to the value that the application requires.
     result[idx0] = argInit_real_T();
@@ -74,17 +74,17 @@ static double argInit_real_T()
 
 static void main_mb_OptimalManeuver()
 {
-  double j_outputs[272];
-  double j_statesdot[238];
-  double outputs[16];
-  double dv[14];
-  double statesdot[14];
+  double j_statesdot[180];
+  double j_outputs[150];
+  double dv[12];
+  double statesdot[12];
+  double outputs[10];
   double dv1[3];
   // Initialize function 'mb_OptimalManeuver' input arguments.
   // Initialize function input argument 'states'.
   // Initialize function input argument 'controls'.
   // Call the entry-point 'mb_OptimalManeuver'.
-  argInit_14x1_real_T(dv);
+  argInit_12x1_real_T(dv);
   argInit_3x1_real_T(dv1);
   mb_OptimalManeuver(dv, dv1, statesdot, outputs, j_statesdot, j_outputs);
 }
