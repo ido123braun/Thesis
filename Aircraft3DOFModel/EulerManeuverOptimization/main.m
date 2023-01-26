@@ -130,6 +130,9 @@ phase.setInitialBoundaries([r0_E ; v0; phi0; gamma0; psi0; W0; P0; Js0; n0]);
 phase.setFinalBoundaries([rfmin_E ; vfmin; phifmin; gammafmin; psifmin; Wfmin; Pfmin; Jsfmin; nfmin],[rfmax_E ; vfmax; phifmax; gammafmax; psifmax; Wfmax; Pfmax; Jsfmax; nfmax]);
 
 % Add Cost Function
+
+Wneg=y_vec(7,1);
+
 problem.addNewParameterCost(tf);
 
 % Solve Problem
