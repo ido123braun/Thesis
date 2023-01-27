@@ -116,24 +116,24 @@ e0_P=[e0; e1; e2; e3]; % Initial Quaternion Vector
 
 % Set Terminal Conditions
 
-rfmin_E=[-inf; -inf; -20000*0.3048]; % Minimum Terminal Airplane Radius in Earth Coordinates [m]
-rfmax_E=[inf; inf; -20000*0.3048]; % Maximum Terminal Airplane Radius in Earth Coordinates [m]
+rfmin_E=[-inf; -inf; -300*0.3048]; % Minimum Terminal Airplane Radius in Earth Coordinates [m]
+rfmax_E=[inf; inf; -300*0.3048]; % Maximum Terminal Airplane Radius in Earth Coordinates [m]
 vfmin=300; % Minimum Terminal Airplane TAS Velocity [m/sec]
 vfmax=300; % Maximum Terminal Airplane TAS Velocity [m/sec]
 phifmin=0*pi/180; % Minimum Terminal Airplane Roll Angle [rad]
 phifmax=0*pi/180; % Maximum Terminal Airplane Roll Angle [rad]
 gammafmin=0*pi/180; % Minimum Terminal Airplane Course Angle [rad]
 gammafmax=0*pi/180; % Maximum Terminal Airplane Course Angle [rad]
-psifmin=90*pi/180; % Minimum Terminal Airplane Azimuth Angle [rad]
-psifmax=90*pi/180; % Maximum Terminal Airplane Azimuth Angle [rad]
+psifmin=179.9*pi/180; % Minimum Terminal Airplane Azimuth Angle [rad]
+psifmax=179.9*pi/180; % Maximum Terminal Airplane Azimuth Angle [rad]
 Wfmin=20300*0.4536*p.g; % Minimum Terminal Airplane Weight [N]
 Wfmax=p.m0.*p.g; % Maximum Terminal Airplane Weight [N]
 Pfmin=0; % Minimum Terminal Airplane Roll Rate [rad/sec]
 Pfmax=0; % Maximum Terminal Airplane Roll Rate [rad/sec]
 Jsfmin=0; % Minimum Terminal Airplane Throttle
 Jsfmax=1; % Maximum Terminal Airplane Throttle
-nfmin=-3; % Minimum Terminal Airplane Load Factor
-nfmax=9.5; % Maximum Terminal Airplane Load Factor
+nfmin=1; % Minimum Terminal Airplane Load Factor
+nfmax=1; % Maximum Terminal Airplane Load Factor
 
 e0min=cos(psifmin/2)*cos(gammafmin/2)*cos(phifmin/2)+sin(psifmin/2)*sin(gammafmin/2)*sin(phifmin/2); % Minimum Terminal Quaternion Parameter 0
 e1min=cos(psifmin/2)*cos(gammafmin/2)*sin(phifmin/2)-sin(psifmin/2)*sin(gammafmin/2)*cos(phifmin/2); % Minimum Terminal Quaternion Parameter 1
@@ -159,6 +159,9 @@ phase.setFinalBoundaries([rfmin_E ; vfmin; efmin_P; Wfmin; Pfmin; Jsfmin; nfmin]
 % phase.addNewPathConstraint(@sysConstraint, pathconstraints,tau);
 
 % Add Cost Function
+
+Wneg=y_vec(7,1);
+
 problem.addNewParameterCost(tf);
 
 % Solve Problem
@@ -170,7 +173,7 @@ t=phase.RealTime;
 
 r_E=phase.StateGrid.Values(1:3,:);
 v=phase.StateGrid.Values(4,:);
-e_P=phase.StateGrid.Values(5:8,:);
+e_P=phase.StateGrid.Values(5:8,:)';
 W=phase.StateGrid.Values(9,:);
 P=phase.StateGrid.Values(10,:);
 Js=phase.StateGrid.Values(11,:);
@@ -180,22 +183,35 @@ Pcom=phase.ControlGrids.Values(1,:);
 Jscom=phase.ControlGrids.Values(2,:);
 ncom=phase.ControlGrids.Values(3,:);
 
-% phi_P=phase.Model.ModelOutputGrid.Values(1,:);
-% gamma_P=phase.Model.ModelOutputGrid.Values(2,:);
-% psi_P=phase.Model.ModelOutputGrid.Values(3,:);
-% alpha=phase.Model.ModelOutputGrid.Values(4,:);
-% CL=phase.Model.ModelOutputGrid.Values(5,:);
-% CD=phase.Model.ModelOutputGrid.Values(6,:);
-% T=phase.Model.ModelOutputGrid.Values(7,:);
-% TSFC=phase.Model.ModelOutputGrid.Values(8,:);
-% rho_P=phase.Model.ModelOutputGrid.Values(9,:);
-% Omega_P=phase.Model.ModelOutputGrid.Values(10:12,:);
-% edot=phase.Model.ModelOutputGrid.Values(13:16,:);
+phi=phase.Model.ModelOutputGrid.Values(1,:);
+gamma=phase.Model.ModelOutputGrid.Values(2,:);
+psi=phase.Model.ModelOutputGrid.Values(3,:);
+alpha=phase.Model.ModelOutputGrid.Values(4,:);
+CL=phase.Model.ModelOutputGrid.Values(5,:);
+CD=phase.Model.ModelOutputGrid.Values(6,:);
+T=phase.Model.ModelOutputGrid.Values(7,:);
+TSFC=phase.Model.ModelOutputGrid.Values(8,:);
+ng=phase.Model.ModelOutputGrid.Values(9,:);
+Wneg=phase.Model.ModelOutputGrid.Values(10,:);
 
 e=sqrt(e_P(1,:).^2+e_P(2,:).^2+e_P(3,:).^2+e_P(4,:).^2);
 
 ComDataMat=[t', Pcom', Jscom', ncom'];
 save ComData ComDataMat
+
+FlightPathDataMat=[t', v', phi', gamma', psi'];
+save FlightPathData FlightPathDataMat
+
+figure
+hold on
+grid
+xlabel('x [m]')
+ylabel('y [m]')
+zlabel('h [m]')
+plot3(r_E(1,:),r_E(2,:),-r_E(3,:))
+scatter3(r_E(1,1),r_E(2,1),-r_E(3,1),'fill','b');
+legend('Airplane Course','Airplane initial')
+axis equal
 
 figure
 

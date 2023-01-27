@@ -1,11 +1,27 @@
 function [x_dot] = InterceptionODE(t,x,p)
-x_dot = zeros (15,1) ;
+x_dot = zeros (12,1) ;
 
 r_ME=x(1:3); %[m]
 v_ME=x(4:6); %[m/sec]
 r_TE=x(7:9); %[m]
-v_TE=x(10:12); %[m/sec]
-u_M=x(13:15); %[m/sec^2]
+u_M=x(10:12); %[m/sec^2]
+
+if t<=p.t_T(end)
+    v_T=interp1(p.t_T(:),p.v_T(:),t);
+    phi_T=interp1(p.t_T(:),p.phi_T(:),t);
+    gamma_T=interp1(p.t_T(:),p.gamma_T(:),t);
+    psi_T=interp1(p.t_T(:),p.psi_T(:),t);
+else
+    v_T=p.v_T(end,1);
+    phi_T=p.phi_T(end,1);
+    gamma_T=p.gamma_T(end,1);
+    psi_T=p.psi_T(end,1);
+end
+
+E2P=DCM_E2P(phi_T,gamma_T,psi_T); % Earth to Airplane Velocity Coordinates Rotation Matrix
+
+v_P=[v_T; 0; 0];
+v_TE=transpose(E2P)*v_P;
 
 psi_M=atan(r_ME(2)/r_ME(1)); %[rad]
 lambda_M=-asin(r_ME(3)/norm(r_ME)); %[rad]
@@ -34,19 +50,9 @@ F_M=W_M+D_M+p.m_M.*u_M; %[N]
 a_M=F_M/p.m_M; %[m/sec^2]
 a_ME=transpose(E2M)*a_M; %[m/sec^2]
 
-if t<=5
-    a_TE=[-50; -30; 0];
-end
-if t>5&&t<=10
-    a_TE=[50; 30; 0];
-else
-    a_TE=[0; -30; -50];
-end
-
 x_dot(1:3)=v_ME; %[m/sec]
 x_dot(4:6)=a_ME; %[m/sec^2]
 x_dot(7:9)=v_TE; %[m/sec]
-x_dot(10:12)=a_TE; %[m/sec^2]
-x_dot(13:15)=-(u_M-u_M_c)/p.tau_M; %[m/sec^3]
+x_dot(10:12)=-(u_M-u_M_c)/p.tau_M; %[m/sec^3]
 
 

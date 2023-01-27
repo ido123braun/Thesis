@@ -105,24 +105,24 @@ n0=1; % Initial Airplane Load Factor
 
 % Set Terminal Conditions
 
-rfmin_E=[-inf; -inf; -20000*0.3048]; % Minimum Terminal Airplane Radius in Earth Coordinates [m]
-rfmax_E=[inf; inf; -20000*0.3048]; % Maximum Terminal Airplane Radius in Earth Coordinates [m]
+rfmin_E=[-inf; -inf; -10000*0.3048]; % Minimum Terminal Airplane Radius in Earth Coordinates [m]
+rfmax_E=[inf; inf; 0*0.3048]; % Maximum Terminal Airplane Radius in Earth Coordinates [m]
 vfmin=300; % Minimum Terminal Airplane TAS Velocity [m/sec]
 vfmax=300; % Maximum Terminal Airplane TAS Velocity [m/sec]
 phifmin=0*pi/180; % Minimum Terminal Airplane Roll Angle [rad]
 phifmax=0*pi/180; % Maximum Terminal Airplane Roll Angle [rad]
 gammafmin=0*pi/180; % Minimum Terminal Airplane Course Angle [rad]
 gammafmax=0*pi/180; % Maximum Terminal Airplane Course Angle [rad]
-psifmin=90*pi/180; % Minimum Terminal Airplane Azimuth Angle [rad]
-psifmax=90*pi/180; % Maximum Terminal Airplane Azimuth Angle [rad]
+psifmin=179.9*pi/180; % Minimum Terminal Airplane Azimuth Angle [rad]
+psifmax=179.9*pi/180; % Maximum Terminal Airplane Azimuth Angle [rad]
 Wfmin=20300*0.4536*p.g; % Minimum Terminal Airplane Weight [N]
 Wfmax=p.m0.*p.g; % Maximum Terminal Airplane Weight [N]
 Pfmin=0; % Minimum Terminal Airplane Roll Rate [rad/sec]
 Pfmax=0; % Maximum Terminal Airplane Roll Rate [rad/sec]
 Jsfmin=0; % Minimum Terminal Airplane Throttle
 Jsfmax=1; % Maximum Terminal Airplane Throttle
-nfmin=-3; % Minimum Terminal Airplane Load Factor
-nfmax=9.5; % Maximum Terminal Airplane Load Factor
+nfmin=1; % Minimum Terminal Airplane Load Factor
+nfmax=1; % Maximum Terminal Airplane Load Factor
 
 % Set Boundary Conditions
 
