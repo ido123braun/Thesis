@@ -50,9 +50,16 @@ F_M=W_M+D_M+p.m_M.*u_M; %[N]
 a_M=F_M/p.m_M; %[m/sec^2]
 a_ME=transpose(E2M)*a_M; %[m/sec^2]
 
-x_dot(1:3)=v_ME; %[m/sec]
-x_dot(4:6)=a_ME; %[m/sec^2]
+if t<p.td
+    x_dot(1:3)=[0; 0; 0]; %[m/sec]
+     x_dot(4:6)=[0; 0; 0]; %[m/sec^2]
+     x_dot(10:12)=[0; 0; 0]; %[m/sec^3]
+else
+    x_dot(1:3)=v_ME; %[m/sec]
+    x_dot(4:6)=a_ME; %[m/sec^2]
+    x_dot(10:12)=-(u_M-u_M_c)/p.tau_M; %[m/sec^3]
+end
+
 x_dot(7:9)=v_TE; %[m/sec]
-x_dot(10:12)=-(u_M-u_M_c)/p.tau_M; %[m/sec^3]
 
 

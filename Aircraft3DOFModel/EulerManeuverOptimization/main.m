@@ -93,7 +93,7 @@ phase.Model.setModelOutputs(y_vec);...; falcon.Output('alpha'); falcon.Output('C
 
 % Set Initial Conditions
 
-r0_E=[0; 0; -10000*0.3048]; % Initial Airplane Radius in Earth Coordinates [m]
+r0_E=[0; 0; -300*0.3048]; % Initial Airplane Radius in Earth Coordinates [m]
 v0=300; % Initial Airplane TAS Velocity [m/sec]
 phi0=0*pi/180; % Initial Airplane Roll Angle [rad]
 gamma0=0*pi/180; % Initial Airplane Course Angle [rad]
@@ -105,16 +105,16 @@ n0=1; % Initial Airplane Load Factor
 
 % Set Terminal Conditions
 
-rfmin_E=[-inf; -inf; -10000*0.3048]; % Minimum Terminal Airplane Radius in Earth Coordinates [m]
-rfmax_E=[inf; inf; 0*0.3048]; % Maximum Terminal Airplane Radius in Earth Coordinates [m]
+rfmin_E=[-inf; -inf; -30000*0.3048]; % Minimum Terminal Airplane Radius in Earth Coordinates [m]
+rfmax_E=[inf; inf; -30000*0.3048]; % Maximum Terminal Airplane Radius in Earth Coordinates [m]
 vfmin=300; % Minimum Terminal Airplane TAS Velocity [m/sec]
 vfmax=300; % Maximum Terminal Airplane TAS Velocity [m/sec]
 phifmin=0*pi/180; % Minimum Terminal Airplane Roll Angle [rad]
 phifmax=0*pi/180; % Maximum Terminal Airplane Roll Angle [rad]
 gammafmin=0*pi/180; % Minimum Terminal Airplane Course Angle [rad]
 gammafmax=0*pi/180; % Maximum Terminal Airplane Course Angle [rad]
-psifmin=179.9*pi/180; % Minimum Terminal Airplane Azimuth Angle [rad]
-psifmax=179.9*pi/180; % Maximum Terminal Airplane Azimuth Angle [rad]
+psifmin=0*pi/180; % Minimum Terminal Airplane Azimuth Angle [rad]
+psifmax=0*pi/180; % Maximum Terminal Airplane Azimuth Angle [rad]
 Wfmin=20300*0.4536*p.g; % Minimum Terminal Airplane Weight [N]
 Wfmax=p.m0.*p.g; % Maximum Terminal Airplane Weight [N]
 Pfmin=0; % Minimum Terminal Airplane Roll Rate [rad/sec]
