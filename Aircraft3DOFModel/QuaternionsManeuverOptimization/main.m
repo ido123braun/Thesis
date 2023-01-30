@@ -25,7 +25,7 @@ x_vec = [...
 u_vec = [...
     falcon.Control('Pcom'  ,   -300*pi/180,    300*pi/180, 1);...
     falcon.Control('Jscom'  ,   0,    1, 1);...
-    falcon.Control('ncom'  ,   -3,    9, 1)];
+    falcon.Control('ncom'  ,   -3,    9.5, 1)];
 
 y_vec = [...
     falcon.Output('phi', -360*pi/180, 360*pi/180, 1);...
@@ -98,7 +98,7 @@ phase.Model.setModelOutputs(y_vec);...; falcon.Output('alpha'); falcon.Output('C
 
 % Set Initial Conditions
 
-r0_E=[0; 0; -10000*0.3048]; % Initial Airplane Radius in Earth Coordinates [m]
+r0_E=[0; 0; -30000*0.3048]; % Initial Airplane Radius in Earth Coordinates [m]
 v0=300; % Initial Airplane TAS Velocity [m/sec]
 phi0=0*pi/180; % Initial Airplane Roll Angle [rad]
 gamma0=0*pi/180; % Initial Airplane Course Angle [rad]
@@ -116,8 +116,8 @@ e0_P=[e0; e1; e2; e3]; % Initial Quaternion Vector
 
 % Set Terminal Conditions
 
-rfmin_E=[-inf; -inf; -300*0.3048]; % Minimum Terminal Airplane Radius in Earth Coordinates [m]
-rfmax_E=[inf; inf; -300*0.3048]; % Maximum Terminal Airplane Radius in Earth Coordinates [m]
+rfmin_E=[-inf; -inf; -25000*0.3048]; % Minimum Terminal Airplane Radius in Earth Coordinates [m]
+rfmax_E=[inf; inf; -25000*0.3048]; % Maximum Terminal Airplane Radius in Earth Coordinates [m]
 vfmin=300; % Minimum Terminal Airplane TAS Velocity [m/sec]
 vfmax=300; % Maximum Terminal Airplane TAS Velocity [m/sec]
 phifmin=0*pi/180; % Minimum Terminal Airplane Roll Angle [rad]
@@ -165,6 +165,9 @@ Wneg=y_vec(7,1);
 problem.addNewParameterCost(tf);
 
 % Solve Problem
+
+problem.setMajorOptTol(1e-4);
+problem.setMajorIterLimit(1500);
 problem.Solve();
 
 %% Plot

@@ -165,6 +165,9 @@ Wneg=y_vec(7,1);
 problem.addNewParameterCost(tf);
 
 % Solve Problem
+
+problem.setMajorOptTol(1e-1);
+problem.setMajorIterLimit(500);
 problem.Solve();
 
 %% Plot

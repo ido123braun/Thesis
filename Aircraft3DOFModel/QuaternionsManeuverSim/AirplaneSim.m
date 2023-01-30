@@ -52,7 +52,7 @@ p.nCom=ComDataMat(:,4); % Load Factor Command
 
 %% Simulation
 
-r0_E=[0; 0; -10000*0.3048]; % Initial Airplane Radius in Earth Coordinates [m]
+r0_E=[0; 0; -30000*0.3048]; % Initial Airplane Radius in Earth Coordinates [m]
 v0=300; % Initial Airplane TAS Velocity [m/sec]
 phi0=0*pi/180; % Initial Airplane Roll Angle [rad]
 gamma0=0*pi/180; % Initial Airplane Course Angle [rad]

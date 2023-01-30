@@ -33,11 +33,11 @@
 /*                                                                       */
 /*************************************************************************/
 
-// Include files
+// Include files 
 #include "main.h"
 #include "mb_OptimalManeuver.h"
 
-// Function Declarations
+// Function Declarations 
 static void argInit_12x1_real_T(double result[12]);
 
 static void argInit_3x1_real_T(double result[3]);
@@ -46,60 +46,61 @@ static double argInit_real_T();
 
 static void main_mb_OptimalManeuver();
 
-// Function Definitions
+
+// Function Definitions 
 static void argInit_12x1_real_T(double result[12])
 {
-  // Loop over the array to initialize each element.
-  for (int idx0{0}; idx0 < 12; idx0++) {
-    // Set the value of the array element.
-    // Change this value to the value that the application requires.
-    result[idx0] = argInit_real_T();
-  }
+    // Loop over the array to initialize each element.
+    for ( int idx0{0}; idx0 < 12; idx0++) {
+        // Set the value of the array element.
+// Change this value to the value that the application requires.
+        result[idx0] = argInit_real_T();
+    }
 }
 
 static void argInit_3x1_real_T(double result[3])
 {
-  // Loop over the array to initialize each element.
-  for (int idx0{0}; idx0 < 3; idx0++) {
-    // Set the value of the array element.
-    // Change this value to the value that the application requires.
-    result[idx0] = argInit_real_T();
-  }
+    // Loop over the array to initialize each element.
+    for ( int idx0{0}; idx0 < 3; idx0++) {
+        // Set the value of the array element.
+// Change this value to the value that the application requires.
+        result[idx0] = argInit_real_T();
+    }
 }
 
 static double argInit_real_T()
 {
-  return 0.0;
+    return 0.0;
 }
 
 static void main_mb_OptimalManeuver()
 {
-  double j_statesdot[180];
-  double j_outputs[150];
-  double dv[12];
-  double statesdot[12];
-  double outputs[10];
-  double dv1[3];
-  // Initialize function 'mb_OptimalManeuver' input arguments.
-  // Initialize function input argument 'states'.
-  // Initialize function input argument 'controls'.
-  // Call the entry-point 'mb_OptimalManeuver'.
-  argInit_12x1_real_T(dv);
-  argInit_3x1_real_T(dv1);
-  mb_OptimalManeuver(dv, dv1, statesdot, outputs, j_statesdot, j_outputs);
+    double j_statesdot[180];
+    double j_outputs[150];
+    double dv[12];
+    double statesdot[12];
+    double outputs[10];
+    double dv1[3];
+    // Initialize function 'mb_OptimalManeuver' input arguments.
+    // Initialize function input argument 'states'.
+    // Initialize function input argument 'controls'.
+    // Call the entry-point 'mb_OptimalManeuver'.
+    argInit_12x1_real_T(dv);
+    argInit_3x1_real_T(dv1);
+    mb_OptimalManeuver(dv, dv1, statesdot, outputs, j_statesdot, j_outputs);
 }
 
 int main(int, char **)
 {
-  // The initialize function is being called automatically from your entry-point
-  // function. So, a call to initialize is not included here. Invoke the
-  // entry-point functions.
-  // You can call entry-point functions multiple times.
-  main_mb_OptimalManeuver();
-  // Terminate the application.
-  // You do not need to do this more than one time.
-  mb_OptimalManeuver_terminate();
-  return 0;
+    // The initialize function is being called automatically from your entry-point function. So, a call to initialize is not included here.
+    // Invoke the entry-point functions.
+// You can call entry-point functions multiple times.
+    main_mb_OptimalManeuver();
+    // Terminate the application.
+// You do not need to do this more than one time.
+    mb_OptimalManeuver_terminate();
+    return 0;
 }
 
-// End of code generation (main.cpp)
+
+// End of code generation (main.cpp) 

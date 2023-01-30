@@ -18,7 +18,7 @@ p.S_M=pi*(p.D_M/2)^2; %[m^2]
 p.CD_M=0.5;
 p.N_M=3;
 p.tau_M=0.1; %[sec]
-p.td=75; % Launch Delay Time [sec]
+p.td=120; % Launch Delay Time [sec]
 
 %% Target Properties
 
@@ -44,7 +44,7 @@ p.psi_T(end:end-1+length(ManeuverPathDataMat(:,5)))=ManeuverPathDataMat(1:end,5)
 
 r0_ME=[100; 100; -100]; % initial missile radius in earth coordinates [m]
 v0_ME=[-700; 0; -700]; % initial missile velocity in earth coordinates [m/sec]
-r0_TE=[-45000; 0; -300*0.3048]; % initial target radius in earth coordinates [m]
+r0_TE=[-46000; 0; -300*0.3048]; % initial target radius in earth coordinates [m]
 u0_M=[0; 0; 0]; % initial missile control acceleration in missile coordinates [m/sec^2]
 
 t0 = 0 ; % Initial time [sec]

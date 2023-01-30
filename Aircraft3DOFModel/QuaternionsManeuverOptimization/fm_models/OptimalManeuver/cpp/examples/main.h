@@ -36,17 +36,19 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-// Include files
+
+// Include files 
 #include "rtwtypes.h"
 #include <cstddef>
 #include <cstdlib>
 
-// Custom Header Code
+// Custom Header Code 
 #include <cstdint>
 #define CHAR16_T uint16_t
 #include "mex.h"
-// Function Declarations
+// Function Declarations 
 extern int main(int argc, char **argv);
 
+
 #endif
-// End of code generation (main.h)
+// End of code generation (main.h) 
