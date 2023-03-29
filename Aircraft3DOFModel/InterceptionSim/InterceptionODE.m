@@ -59,7 +59,7 @@ else
     x_dot(1)=rdot;
     x_dot(2)=(lambdadot^2)*r+(psidot^2)*r*(cos(lambda)^2)-p.g*sin(lambda)-k*norm(v_M)*rdot+u_M(1);
     x_dot(3)=lambdadot;
-    x_dot(4)=-2*lambdadot*rdot/r-0.5*(psidot^2)*sin(2*lambda)-p.g*cos(lambda)/r+k*norm(v_M)*lambdadot+u_M(3)/r;
+    x_dot(4)=-2*lambdadot*rdot/r-0.5*(psidot^2)*sin(2*lambda)-p.g*cos(lambda)/r-k*norm(v_M)*lambdadot-u_M(3)/r;
     x_dot(5)=psidot;
     x_dot(6)=2*psidot*lambdadot*tan(lambda)-2*psidot*rdot/r-k*norm(v_M)*psidot+u_M(2)/(r*cos(lambda));
     x_dot(7:9)=-(u_M-u_M_c)/p.tau; %[m/sec^3]

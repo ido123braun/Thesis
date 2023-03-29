@@ -44,7 +44,7 @@ p.psi_T(end:end-1+length(ManeuverPathDataMat(:,5)))=ManeuverPathDataMat(1:end,5)
 
 r0=100; % initial missile radius [m]
 rdot0=700; % initial missile velocity [m/sec]
-lambda0=35.2656*pi/180; % Initial Missile pitch angle [rad]
+lambda0=45*pi/180; % Initial Missile pitch angle [rad]
 lambdadot0=0; % Initial Misiile pitch angle rate [rad/sec]
 psi0=180*pi/180; % Initial Missile azimuth angle [rad]
 psidot0=0; % Initial Missile azimuth angle rate [rad/sec]
