@@ -1,10 +1,14 @@
 function [x_dot] = InterceptionODE(t,x,p)
 x_dot = zeros (12,1) ;
 
-r_ME=x(1:3); %[m]
-v_ME=x(4:6); %[m/sec]
-r_TE=x(7:9); %[m]
-u_M=x(10:12); %[m/sec^2]
+r=x(1); % [m]
+rdot=x(2); % [m/sec]
+lambda=x(3); % [rad]
+lambdadot=x(4); % [rad/sec]
+psi=x(5); % [rad]
+psidot=x(6); % [rad/sec]
+u_M=x(7:9); %[m/sec^2]
+r_TE=x(10:12); %[m]
 
 if t<=p.t_T(end)
     v_T=interp1(p.t_T(:),p.v_T(:),t);
@@ -23,43 +27,44 @@ E2P=DCM_E2P(phi_T,gamma_T,psi_T); % Earth to Airplane Velocity Coordinates Rotat
 v_P=[v_T; 0; 0];
 v_TE=transpose(E2P)*v_P;
 
-psi_M=atan2(r_ME(2),r_ME(1)); %[rad]
-lambda_M=-asin(r_ME(3)/norm(r_ME)); %[rad]
+E2M=DCM_E2M(lambda,psi);
 
-E2M=DCM_E2M(lambda_M,psi_M);
+r_M=[r; 0; 0]; % [m]
+r_ME=transpose(E2M)*r_M; % [m]
+v_M=[rdot; psidot*r*cos(lambda); -lambdadot*r]; % [m/sec]
+v_ME=transpose(E2M)*v_M; % [m/sec]
 
-r_M=E2M*r_ME; %[m]
-r_TM=E2M*r_TE; %[m]
-v_M=E2M*v_ME; %[m/sec]
-v_TM=E2M*v_TE; %[m/sec]
+r_TM=E2M*r_TE; % [m]
+v_TM=E2M*v_TE; % [m/sec]
 
 r_rel=r_TM-r_M; %[m]
 v_rel=v_TM-v_M; %[m]
 Omega_LOS=cross(r_rel,v_rel)./dot(r_rel,r_rel); %[rad/sec]
 
-rho_M=p.rho0*(1+p.beta0*r_ME(3)/p.Temp0)^(p.g/(p.R*p.beta0)-1); %[kg/m^3]
-k_M=rho_M*p.S_M*p.CD_M/(2*p.m_M); %[1/m]
+rho=p.rho0*(1+p.beta0*r_ME(3)/p.Temp0)^(p.g/(p.R*p.beta0)-1); %[kg/m^3]
+k=rho*p.S*p.CD/(2*p.m); %[1/m]
 
-W_ME=[0; 0; p.m_M*p.g]; %[N]
-W_M=E2M*W_ME; %[N]
-D_M=-p.m_M*k_M*norm(v_M).*v_M; %[N]
-U_M_c=-(p.N_M*p.m_M*norm(v_rel)/norm(r_rel))*cross(r_rel,Omega_LOS); %[N]
-u_M_c=U_M_c/p.m_M; %[m/sec^2]
-F_M=W_M+D_M+p.m_M.*u_M; %[N]
-
-a_M=F_M/p.m_M; %[m/sec^2]
-a_ME=transpose(E2M)*a_M; %[m/sec^2]
+U_M_c=-(p.N*p.m*norm(v_rel)/norm(r_rel))*cross(r_rel,Omega_LOS); %[N]
+u_M_c=U_M_c/p.m; %[m/sec^2]
 
 if t<p.td
-    x_dot(1:3)=[0; 0; 0]; %[m/sec]
-     x_dot(4:6)=[0; 0; 0]; %[m/sec^2]
-     x_dot(10:12)=[0; 0; 0]; %[m/sec^3]
+    x_dot(1)=0;
+    x_dot(2)=0;
+    x_dot(3)=0;
+    x_dot(4)=0;
+    x_dot(5)=0;
+    x_dot(6)=0;
+    x_dot(7:9)=[0; 0; 0]; %[m/sec^3]
 else
-    x_dot(1:3)=v_ME; %[m/sec]
-    x_dot(4:6)=a_ME; %[m/sec^2]
-    x_dot(10:12)=-(u_M-u_M_c)/p.tau_M; %[m/sec^3]
+    x_dot(1)=rdot;
+    x_dot(2)=(lambdadot^2)*r+(psidot^2)*r*(cos(lambda)^2)-p.g*sin(lambda)-k*norm(v_M)*rdot+u_M(1);
+    x_dot(3)=lambdadot;
+    x_dot(4)=-2*lambdadot*rdot/r-0.5*(psidot^2)*sin(2*lambda)-p.g*cos(lambda)/r-k*norm(v_M)*lambdadot-u_M(3)/r;
+    x_dot(5)=psidot;
+    x_dot(6)=2*psidot*lambdadot*tan(lambda)-2*psidot*rdot/r-k*norm(v_M)*psidot+u_M(2)/(r*cos(lambda));
+    x_dot(7:9)=-(u_M-u_M_c)/p.tau; %[m/sec^3]
 end
 
-x_dot(7:9)=v_TE; %[m/sec]
+x_dot(10:12)=v_TE; %[m/sec]
 
 

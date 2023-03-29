@@ -23,8 +23,7 @@
 // Function Declarations
 extern void mb_OptimalManeuver(const double states[12],
                                const double controls[3], double statesdot[12],
-                               double outputs[10], double j_statesdot[180],
-                               double j_outputs[150]);
+                               double j_statesdot[180]);
 
 extern void mb_OptimalManeuver_initialize();
 

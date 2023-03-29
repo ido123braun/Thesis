@@ -35,7 +35,7 @@
 
 // Include files
 #include "main.h"
-#include "mb_OptimalManeuver.h"
+#include "mb_fm_mex_FBC.h"
 
 // Function Declarations
 static void argInit_12x1_real_T(double result[12]);
@@ -44,7 +44,7 @@ static void argInit_3x1_real_T(double result[3]);
 
 static double argInit_real_T();
 
-static void main_mb_OptimalManeuver();
+static void main_mb_fm_mex_FBC();
 
 // Function Definitions
 static void argInit_12x1_real_T(double result[12])
@@ -72,19 +72,19 @@ static double argInit_real_T()
   return 0.0;
 }
 
-static void main_mb_OptimalManeuver()
+static void main_mb_fm_mex_FBC()
 {
-  double j_statesdot[180];
+  double j_constraintvalue[15];
   double dv[12];
-  double statesdot[12];
   double dv1[3];
-  // Initialize function 'mb_OptimalManeuver' input arguments.
+  double constraintvalue;
+  // Initialize function 'mb_fm_mex_FBC' input arguments.
   // Initialize function input argument 'states'.
   // Initialize function input argument 'controls'.
-  // Call the entry-point 'mb_OptimalManeuver'.
+  // Call the entry-point 'mb_fm_mex_FBC'.
   argInit_12x1_real_T(dv);
   argInit_3x1_real_T(dv1);
-  mb_OptimalManeuver(dv, dv1, statesdot, j_statesdot);
+  mb_fm_mex_FBC(dv, dv1, argInit_real_T(), &constraintvalue, j_constraintvalue);
 }
 
 int main(int, char **)
@@ -93,10 +93,10 @@ int main(int, char **)
   // function. So, a call to initialize is not included here. Invoke the
   // entry-point functions.
   // You can call entry-point functions multiple times.
-  main_mb_OptimalManeuver();
+  main_mb_fm_mex_FBC();
   // Terminate the application.
   // You do not need to do this more than one time.
-  mb_OptimalManeuver_terminate();
+  mb_fm_mex_FBC_terminate();
   return 0;
 }
 

@@ -1,0 +1,48 @@
+Report generated on: 22-Mar-2023 12:34:06
+
+Error message:
+Initial guess for states contains non-finite values:
+>> states with NaN values: x_E, y_E
+>> states with Inf values: 
+
+Error stack:
+   - Stack error no. 1: in Phase.checkStateInitialGuess at 0
+   - Stack error no. 2: in Phase.checkInitialGuess at 0
+   - Stack error no. 3: in Phase.CheckConsistency at 0
+   - Stack error no. 4: in Problem.CheckConsistency at 0
+   - Stack error no. 5: in Problem.Bake at 0
+   - Stack error no. 6: in Problem.Solve at 0
+   - Stack error no. 7: in mainClimbSim at 179
+
+Falcon version information:
+    - Release: v1.27
+    - Series: main
+    - Number: 1.27
+    - Build: v1.27_3a392cfc_public
+
+Release information:
+    - Used Matlab Version:              9.10.0.1602886 (R2021a)
+    - Used Matlab Version Release Date: February 17, 2021
+
+Installed Toolboxes:
+    - "Aerospace Blockset" as Version "5.0"
+    - "Aerospace Toolbox" as Version "4.0"
+    - "Control System Toolbox" as Version "10.10"
+    - "Curve Fitting Toolbox" as Version "3.5.13"
+    - "GUI Layout Toolbox" as Version "2.3.1"
+    - "MATLAB" as Version "9.10"
+    - "MATLAB Coder" as Version "5.2"
+    - "Optimization Toolbox" as Version "9.1"
+    - "Simulink" as Version "10.3"
+    - "Symbolic Math Toolbox" as Version "8.7"
+
+Basic FALCON.m toolboxes installed and licensed:
+   - MATLAB Coder..............Installed
+   - MATLAB Coder..............Licensed
+   - Symbolic Math Toolbox.....Installed
+   - Symbolic Math Toolbox.....Licensed
+
+Compiler:
+    - Selected C Compiler:   "MinGW64 Compiler (C)"
+    - Selected C++ Compiler: "MinGW64 Compiler (C++)"
+
