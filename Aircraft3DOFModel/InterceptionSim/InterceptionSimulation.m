@@ -44,7 +44,7 @@ p.psi_T(end:end-1+length(ManeuverPathDataMat(:,5)))=ManeuverPathDataMat(1:end,5)
 
 r0=100; % initial missile radius [m]
 rdot0=700; % initial missile velocity [m/sec]
-lambda0=45*pi/180; % Initial Missile pitch angle [rad]
+lambda0=35.2656*pi/180; % Initial Missile pitch angle [rad]
 lambdadot0=0; % Initial Misiile pitch angle rate [rad/sec]
 psi0=180*pi/180; % Initial Missile azimuth angle [rad]
 psidot0=0; % Initial Missile azimuth angle rate [rad/sec]
@@ -62,34 +62,35 @@ opts = odeset('Events',@InterceptionEvent,'RelTol',RelTol,'AbsTol',AbsTol);
 
 %% Results
 
-r=x(:,1)./1000; % [km]
+r=x(:,1); % [m]
 rdot=x(:,2); % [m/sec]
 lambda=x(:,3); % [rad]
 lambdadot=x(:,4); % [rad/sec]
 psi=x(:,5); % [rad]
 psidot=x(:,6); % [rad/sec]
 u_M=x(:,7:9); %[m/sec^2]
-r_TE=x(:,10:12)./1000; %[km]
+r_TE=x(:,10:12); %[m]
 
 for i=1:length(x)
     E2M=DCM_E2M(lambda(i),psi(i));
     r_M(i,:)=[r(i); 0; 0]; % [m]
     r_ME(i,:)=transpose(E2M)*transpose(r_M(i,:)); % [m]
     v_M(i,:)=[rdot(i); psidot(i)*r(i)*cos(lambda(i)); -lambdadot(i)*r(i)]; % [m/sec]
+    v_ME(i,:)=transpose(E2M)*transpose(v_M(i,:)); % [m/sec]
     
     r_rel(i)=norm(r_TE(i,:)-r_ME(i,:));
     
     if r_rel(i)<=0.01||r_ME(i,3)>=0
         x=x(1:i,:);
         
-        r=x(:,1)./1000; % [km]
+        r=x(:,1); % [m]
         rdot=x(:,2); % [m/sec]
         lambda=x(:,3); % [rad]
         lambdadot=x(:,4); % [rad/sec]
         psi=x(:,5); % [rad]
         psidot=x(:,6); % [rad/sec]
         u_M=x(:,7:9); %[m/sec^2]
-        r_TE=x(:,10:12)./1000; %[km]
+        r_TE=x(:,10:12); %[m]
         t=t(1:i);
         
         i=length(x);
@@ -98,6 +99,15 @@ for i=1:length(x)
 end
 
 %% Plots
+
+r=r./1000; % [km]
+lambda=lambda.*180/pi; % [deg]
+lambdadot=lambdadot.*180/pi; % [deg/sec]
+psi=psi.*180/pi; % [deg]
+psidot=psidot.*180/pi; % [deg/sec]
+r_ME=r_ME./1000; % [km]
+r_TE=r_TE./1000; % [km]
+r_rel=r_rel./1000; % [km]
 
 figure
 hold on
