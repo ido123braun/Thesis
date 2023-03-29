@@ -42,8 +42,8 @@ p.psi_T(end:end-1+length(ManeuverPathDataMat(:,5)))=ManeuverPathDataMat(1:end,5)
 
 %% Simulation
 
-r0_ME=[100; 100; -100]; % initial missile radius in earth coordinates [m]
-v0_ME=[-700; 0; -700]; % initial missile velocity in earth coordinates [m/sec]
+r0_ME=[-70.7107; 0; -70.7107]; % initial missile radius in earth coordinates [m]
+v0_ME=[-494.9747; 0; -494.9747]; % initial missile velocity in earth coordinates [m/sec]
 r0_TE=[-46000; 0; -300*0.3048]; % initial target radius in earth coordinates [m]
 u0_M=[0; 0; 0]; % initial missile control acceleration in missile coordinates [m/sec^2]
 

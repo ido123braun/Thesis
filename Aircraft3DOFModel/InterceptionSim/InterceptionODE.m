@@ -23,7 +23,7 @@ E2P=DCM_E2P(phi_T,gamma_T,psi_T); % Earth to Airplane Velocity Coordinates Rotat
 v_P=[v_T; 0; 0];
 v_TE=transpose(E2P)*v_P;
 
-psi_M=atan(r_ME(2)/r_ME(1)); %[rad]
+psi_M=atan2(r_ME(2),r_ME(1)); %[rad]
 lambda_M=-asin(r_ME(3)/norm(r_ME)); %[rad]
 
 E2M=DCM_E2M(lambda_M,psi_M);
