@@ -12,12 +12,12 @@ p.R=287; %[J/kg*K]
 
 %% Missile Properties
 
-p.m_M=600; %[kg]
-p.D_M=0.34; %[m]
-p.S_M=pi*(p.D_M/2)^2; %[m^2]
-p.CD_M=0.5;
-p.N_M=3;
-p.tau_M=0.1; %[sec]
+p.m=600; %[kg]
+p.D=0.34; %[m]
+p.S=pi*(p.D/2)^2; %[m^2]
+p.CD=0.5;
+p.N=3;
+p.tau=0.1; %[sec]
 p.td=120; % Launch Delay Time [sec]
 
 %% Target Properties
@@ -42,39 +42,54 @@ p.psi_T(end:end-1+length(ManeuverPathDataMat(:,5)))=ManeuverPathDataMat(1:end,5)
 
 %% Simulation
 
-r0_ME=[100; 100; -100]; % initial missile radius in earth coordinates [m]
-v0_ME=[-700; 0; -700]; % initial missile velocity in earth coordinates [m/sec]
-r0_TE=[-46000; 0; -300*0.3048]; % initial target radius in earth coordinates [m]
+r0=100; % initial missile radius [m]
+rdot0=700; % initial missile velocity [m/sec]
+lambda0=45*pi/180; % Initial Missile pitch angle [rad]
+lambdadot0=0; % Initial Misiile pitch angle rate [rad/sec]
+psi0=180*pi/180; % Initial Missile azimuth angle [rad]
+psidot0=0; % Initial Missile azimuth angle rate [rad/sec]
 u0_M=[0; 0; 0]; % initial missile control acceleration in missile coordinates [m/sec^2]
+r0_TE=[-46000; 0; -300*0.3048]; % initial target radius in earth coordinates [m]
 
 t0 = 0 ; % Initial time [sec]
 tf = 200 ; % Final time [sec]
 RelTol = 1e-7 ; % Relative Tolerance
 AbsTol = 1e-7 ; % Absolute Tolerance
-x_0 = [r0_ME; v0_ME; r0_TE; u0_M] ; % Initial conditions
+x_0 = [r0; rdot0; lambda0; lambdadot0; psi0; psidot0; u0_M; r0_TE] ; % Initial conditions
 
 opts = odeset('Events',@InterceptionEvent,'RelTol',RelTol,'AbsTol',AbsTol);
 [t,x] = ode45(@(t,x) InterceptionODE(t,x,p), t0:0.05:tf, x_0, opts);
 
 %% Results
 
-r_ME=x(:,1:3)./1000; %[km]
-v_ME=x(:,4:6); %[m/sec]
-r_TE=x(:,7:9)./1000; %[km]
-u_M=x(:,10:12); %[m/sec^2]
-
-% v_TE=p.v_TE; % [m/sec]
+r=x(:,1)./1000; % [km]
+rdot=x(:,2); % [m/sec]
+lambda=x(:,3); % [rad]
+lambdadot=x(:,4); % [rad/sec]
+psi=x(:,5); % [rad]
+psidot=x(:,6); % [rad/sec]
+u_M=x(:,7:9); %[m/sec^2]
+r_TE=x(:,10:12)./1000; %[km]
 
 for i=1:length(x)
-    r_rel(i)=norm(r_TE(i,:)-r_ME(i,:));
-    v_M(i)=norm(v_ME(i,:));
+    E2M=DCM_E2M(lambda(i),psi(i));
+    r_M(i,:)=[r(i); 0; 0]; % [m]
+    r_ME(i,:)=transpose(E2M)*transpose(r_M(i,:)); % [m]
+    v_M(i,:)=[rdot(i); psidot(i)*r(i)*cos(lambda(i)); -lambdadot(i)*r(i)]; % [m/sec]
     
-    if r_rel(i)<=0.01
+    r_rel(i)=norm(r_TE(i,:)-r_ME(i,:));
+    
+    if r_rel(i)<=0.01||r_ME(i,3)>=0
         x=x(1:i,:);
-        r_ME=x(:,1:3)./1000; %[m]
-        v_ME=x(:,4:6); %[m/sec]
-        r_TE=x(:,7:9)./1000; %[m]
-        u_M=x(:,10:12); %[m/sec^2]
+        
+        r=x(:,1)./1000; % [km]
+        rdot=x(:,2); % [m/sec]
+        lambda=x(:,3); % [rad]
+        lambdadot=x(:,4); % [rad/sec]
+        psi=x(:,5); % [rad]
+        psidot=x(:,6); % [rad/sec]
+        u_M=x(:,7:9); %[m/sec^2]
+        r_TE=x(:,10:12)./1000; %[km]
         t=t(1:i);
         
         i=length(x);

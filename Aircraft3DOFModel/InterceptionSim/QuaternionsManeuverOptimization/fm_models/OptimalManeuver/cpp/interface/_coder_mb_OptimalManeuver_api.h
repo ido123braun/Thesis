@@ -23,11 +23,10 @@ extern emlrtContext emlrtContextGlobal;
 
 // Function Declarations
 void mb_OptimalManeuver(real_T states[12], real_T controls[3],
-                        real_T statesdot[12], real_T outputs[10],
-                        real_T j_statesdot[180], real_T j_outputs[150]);
+                        real_T statesdot[12], real_T j_statesdot[180]);
 
 void mb_OptimalManeuver_api(const mxArray *const prhs[2], int32_T nlhs,
-                            const mxArray *plhs[4]);
+                            const mxArray *plhs[2]);
 
 void mb_OptimalManeuver_atexit();
 

@@ -187,9 +187,9 @@ solver.Solve();
 
 z_start = -1000  * 0.3048;
 z_final = -30000 * 0.3048;
-homotopy_parameters = linspace(0,1,100);
+homotopy_parameters = linspace(0,1,10);
 for homotopy_parameter = homotopy_parameters
-    pcon.overwriteConstants({z_start + (z_final - z_start) * homotopy_parameter}, 1);
+    pcon.overwriteConstants({z_start + (z_final - z_start) * homotopy_parameter},1);
     solver.WarmStart();
 end
 % problem.Solve();

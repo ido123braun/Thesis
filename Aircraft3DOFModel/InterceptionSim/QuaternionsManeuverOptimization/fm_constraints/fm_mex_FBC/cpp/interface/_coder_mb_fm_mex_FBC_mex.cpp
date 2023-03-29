@@ -3,28 +3,28 @@
 // course requirements at degree granting institutions only.  Not for
 // government, commercial, or other organizational use.
 //
-// _coder_mb_OptimalManeuver_mex.cpp
+// _coder_mb_fm_mex_FBC_mex.cpp
 //
-// Code generation for function 'mb_OptimalManeuver'
+// Code generation for function 'mb_fm_mex_FBC'
 //
 
 // Include files
-#include "_coder_mb_OptimalManeuver_mex.h"
-#include "_coder_mb_OptimalManeuver_api.h"
+#include "_coder_mb_fm_mex_FBC_mex.h"
+#include "_coder_mb_fm_mex_FBC_api.h"
 
 // Function Definitions
 void mexFunction(int32_T nlhs, mxArray *plhs[], int32_T nrhs,
                  const mxArray *prhs[])
 {
-  mexAtExit(&mb_OptimalManeuver_atexit);
+  mexAtExit(&mb_fm_mex_FBC_atexit);
   // Module initialization.
-  mb_OptimalManeuver_initialize();
+  mb_fm_mex_FBC_initialize();
   try {
     emlrtShouldCleanupOnError((emlrtCTX *)emlrtRootTLSGlobal, false);
     // Dispatch the entry-point.
-    unsafe_mb_OptimalManeuver_mexFunction(nlhs, plhs, nrhs, prhs);
+    unsafe_mb_fm_mex_FBC_mexFunction(nlhs, plhs, nrhs, prhs);
     // Module termination.
-    mb_OptimalManeuver_terminate();
+    mb_fm_mex_FBC_terminate();
   } catch (...) {
     emlrtCleanupOnException((emlrtCTX *)emlrtRootTLSGlobal);
     throw;
@@ -38,8 +38,8 @@ emlrtCTX mexFunctionCreateRootTLS()
   return emlrtRootTLSGlobal;
 }
 
-void unsafe_mb_OptimalManeuver_mexFunction(int32_T nlhs, mxArray *plhs[2],
-                                           int32_T nrhs, const mxArray *prhs[2])
+void unsafe_mb_fm_mex_FBC_mexFunction(int32_T nlhs, mxArray *plhs[2],
+                                      int32_T nrhs, const mxArray *prhs[3])
 {
   emlrtStack st{
       nullptr, // site
@@ -50,16 +50,16 @@ void unsafe_mb_OptimalManeuver_mexFunction(int32_T nlhs, mxArray *plhs[2],
   int32_T b_nlhs;
   st.tls = emlrtRootTLSGlobal;
   // Check for proper number of arguments.
-  if (nrhs != 2) {
-    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:WrongNumberOfInputs", 5, 12, 2, 4,
-                        18, "mb_OptimalManeuver");
+  if (nrhs != 3) {
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:WrongNumberOfInputs", 5, 12, 3, 4,
+                        13, "mb_fm_mex_FBC");
   }
   if (nlhs > 2) {
-    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:TooManyOutputArguments", 3, 4, 18,
-                        "mb_OptimalManeuver");
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:TooManyOutputArguments", 3, 4, 13,
+                        "mb_fm_mex_FBC");
   }
   // Call the function.
-  mb_OptimalManeuver_api(prhs, nlhs, outputs);
+  mb_fm_mex_FBC_api(prhs, nlhs, outputs);
   // Copy over outputs to the caller.
   if (nlhs < 1) {
     b_nlhs = 1;
@@ -69,4 +69,4 @@ void unsafe_mb_OptimalManeuver_mexFunction(int32_T nlhs, mxArray *plhs[2],
   emlrtReturnArrays(b_nlhs, &plhs[0], &outputs[0]);
 }
 
-// End of code generation (_coder_mb_OptimalManeuver_mex.cpp)
+// End of code generation (_coder_mb_fm_mex_FBC_mex.cpp)
